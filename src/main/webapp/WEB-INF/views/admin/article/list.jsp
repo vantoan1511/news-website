@@ -26,22 +26,14 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="card">
-            <div class="card-body row">
-                <div class="col-md-auto col-sm-3">
-                    <button id="approve-btn"
-                            class="btn btn-block bg-gradient-success" title="Chấp nhận">
-                        <i class="fas fa-check"></i> Chấp nhận
-                    </button>
-                </div>
-                <div class="col-md-auto col-sm-3">
-                    <button id="refuse-btn"
-                            class="btn btn-block btn-default" title="Từ chối">
-                        <i class="fas fa-times text-danger"></i> Từ chối
-                    </button>
-                </div>
-            </div>
-        </div>
+        <c:choose>
+            <c:when test="${pageContext.request.userPrincipal.name eq 'admin'}">
+                <%@include file="../../components/admin/listFunctionalities.jsp" %>
+            </c:when>
+            <c:otherwise>
+                <%@include file="../../components/author/listFunctionalities.jsp" %>
+            </c:otherwise>
+        </c:choose>
         <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -50,10 +42,8 @@
                             <select name="sort-by" id="sort-by" class="col form-control custom-select">
                                 <option value="title">Tiêu đề</option>
                                 <option value="categoryId">Chuyên mục</option>
-                                <option value="createdDate">Ngày tạo</option>
                                 <option value="modifiedDate">Ngày sửa đổi</option>
                                 <option value="createdBy">Tác giả</option>
-                                <option value="traffic">Lượng truy cập</option>
                             </select>
                         </div>
                     </div>
@@ -85,7 +75,10 @@
                     <tr>
                         <th>
                             <div class="form-check icheck-material-red">
-                                <input class="form-check-input check-all" type="checkbox" id="select-all">
+                                <input onchange="handleSelectAllCheckboxClick(this, '.check-box')"
+                                       id="select-all"
+                                       class="form-check-input check-all"
+                                       type="checkbox">
                                 <label for="select-all"></label>
                             </div>
                         </th>
@@ -94,10 +87,9 @@
                         <th>Trạng thái</th>
                         <th>Nổi bật</th>
                         <th>Thể loại</th>
-                        <th>Ngày tạo</th>
                         <th>Lần sửa cuối</th>
                         <th>Tác giả</th>
-                        <th>Thao tác</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -105,50 +97,46 @@
                         <tr>
                             <td>
                                 <div class="form-check icheck-material-red">
-                                    <input class="form-check-input check-box" type="checkbox" id="${article.id}"
+                                    <input onchange="handleSingleCheckboxClick('#select-all', '.check-box')"
+                                           class="form-check-input check-box"
+                                           type="checkbox"
+                                           id="${article.id}"
                                            value="${article.id}">
                                     <label for="${article.id}"></label>
                                 </div>
                             </td>
                             <td>${article.id}</td>
-                            <td><a href="/admin/articles/${article.id}">${article.title}</a></td>
+                            <td>
+                                <a class="text-truncate"
+                                   href="/admin/articles/${article.id}">
+                                        ${article.title} <i class="ri-edit-box-line"></i>
+                                </a>
+                            </td>
                             <td class="status-cell text-center">${article.statusName}</td>
                             <td>${article.featured}</td>
                             <td>${article.categoryName}</td>
-                            <td class="created-date">
-                                <fmt:formatDate value="${article.createdDate}" pattern="HH:mm dd/MM/yyyy"/>
-                            </td>
                             <td>
                                 <fmt:formatDate value="${article.modifiedDate}" pattern="HH:mm dd/MM/yyyy"/>
                             </td>
-                            <td>${article.createdBy}</td>
                             <td>
-                                <c:if test="${article.statusCode ne 'draft' and article.statusCode ne 'trash'}">
-                                    <div class="btn-group">
-                                        <button type="button"
-                                                class="btn btn-default dropdown-toggle dropdown-icon"
-                                                data-toggle="dropdown"
-                                                aria-expanded="false"></button>
-                                        <div class="dropdown-menu dropdown-menu-right" role="menu" style>
-                                            <c:if test="${article.statusCode eq 'pending'}">
-                                                <a class="dropdown-item btn btn-default btn-sm approve-single"
-                                                   href="#" data-article-id="${article.id}">
-                                                    <i class="fas fa-check text-success"></i> Chấp nhận
-                                                </a>
-                                                <a class="dropdown-item btn btn-default btn-sm refuse-single"
-                                                   href="#" data-article-id="${article.id}">
-                                                    <i class="fas fa-times text-danger"></i> Từ chối
-                                                </a>
-                                            </c:if>
-                                            <c:if test="${article.statusCode eq 'published'}">
-                                                <a class="dropdown-item btn btn-default btn-sm unpublish-single"
-                                                   href="#" data-article-id="${article.id}">
-                                                    <i class="fas fa-times text-danger"></i> Hủy đăng tải
-                                                </a>
-                                            </c:if>
-                                        </div>
-                                    </div>
-                                </c:if>
+                                <c:choose>
+                                    <c:when test="${article.createdBy eq pageContext.request.userPrincipal.name}">
+                                        Tôi
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${article.createdBy}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${pageContext.request.userPrincipal.name eq 'admin'}">
+                                        <%@ include file="../../components/admin/articleOnListOptions.jsp" %>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <%@ include file="../../components/author/articleOnListOptions.jsp" %>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
                     </c:forEach>
@@ -175,87 +163,10 @@
         <input type="hidden" value="${model.sortOrder}" name="sortOrder" id="sortOrder">
     </form>
 </div>
+<script src="/static/custom/js/details.js"></script>
+<script src="/static/custom/js/list.js"></script>
 <script>
     $(document).ready(() => {
-
-        paginate();
-
-        $('#select-all').change(function () {
-            $('.check-box').prop('checked', this.checked);
-        });
-
-        $('.check-box').change(() => {
-            $('#select-all').prop('checked', $('.check-box:checked').length === $('.check-box').length);
-        });
-
-        $('.approve-single').click(function (e) {
-            e.preventDefault();
-            const id = $(this).data('article-id');
-            var api = '/api/v1/articles/' + id + '/approve';
-            handlePostRequest(id, api, undefined, result => {
-                location.reload();
-            }, error => {
-                showToast({position: 'top-end', title: 'Lỗi', icon: 'error', timer: 2000})
-            });
-        });
-
-        $('.refuse-single').click(function (e) {
-            e.preventDefault();
-            const id = $(this).data('article-id');
-            var api = '/api/v1/articles/' + id + '/refuse';
-            handlePostRequest(id, api, undefined, result => {
-                location.reload();
-            }, error => {
-                showToast({position: 'top-end', title: 'Lỗi', icon: 'error', timer: 2000})
-            });
-        });
-
-        $('.unpublish-single').click(function (e) {
-            e.preventDefault();
-            const id = $(this).data('article-id');
-            var api = '/api/v1/articles/' + id + '/unpublish';
-            handlePostRequest(id, api, undefined, result => {
-                location.reload();
-            }, error => {
-                showToast({position: 'top-end', title: 'Lỗi', icon: 'error', timer: 2000})
-            });
-        });
-
-        $('#approve-btn').click(function (e) {
-            e.preventDefault();
-            const ids = $('tbody input[type=checkbox]:checked').map((index, element) => $(element).val()).get();
-            if (ids.length < 1) {
-                showErrorToast('Không có mục nào được chọn', 2000)
-            } else {
-
-            }
-        })
-        $('#refuse-btn').click(function (e) {
-            e.preventDefault();
-            const ids = $('tbody input[type=checkbox]:checked').map((index, element) => $(element).val()).get();
-            if (ids.length < 1) {
-                showErrorToast('Không có mục nào được chọn', 2000)
-            } else {
-
-            }
-        })
-    });
-
-    function publishArticle(model, e, approve = true) {
-        e.preventDefault();
-        const id = $(model).data('article-id');
-        var api = '/api/v1/articles/' + id + '/';
-        if (approve) api += 'approve';
-        else api += 'unpublish';
-        handlePostRequest(id, api, undefined, result => {
-            location.reload();
-        }, error => {
-            showToast({position: 'top-end', title: 'Lỗi', icon: 'error', timer: 2000})
-        });
-    }
-
-    function paginate() {
-
         var currentPage = ${model.page};
         var totalPages = ${model.totalPages};
         var sortBy = '${model.sortBy}';
@@ -305,7 +216,7 @@
                 last: 'Cuối',
                 next: 'Tiếp',
                 prev: 'Lùi',
-                onPageClick: function (event, page) {
+                onPageClick: (event, page) => {
                     if (currentPage !== page) {
                         $('#page').val(page);
                         $('#form-submit').submit();
@@ -313,8 +224,7 @@
                 }
             });
         }
-    }
-
+    });
 </script>
 </body>
 </html>

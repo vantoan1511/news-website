@@ -78,8 +78,7 @@ public class ArticleController {
         long totalItems = articleService.getTotalItems(author);
         int totalPages = (int) Math.ceil((double) totalItems / limit);
 
-        String viewPath = "author/article/list";
-        if (roles.contains("admin")) viewPath = "admin/article/list";
+        String viewPath = "admin/article/list";
         ModelAndView mav = new ModelAndView(viewPath);
         Model<Object> model = Model.builder()
                 .page(page)
@@ -103,7 +102,7 @@ public class ArticleController {
         }
 
         String viewPath = "admin/article/details";
-        if (roles.contains("author")) viewPath = "author/article/details";
+        //if (roles.contains("author")) viewPath = "author/article/details";
         ModelAndView mav = new ModelAndView(viewPath);
         mav.addObject("model", articleDTO);
         mav.addObject("categories", categoryService.findAll());

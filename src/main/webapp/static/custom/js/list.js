@@ -96,3 +96,18 @@ const handleArticlesDeleteButtonClick = (event, selector) => {
         }
     })
 }
+
+const handleArticleRefuseButtonClick = (event, id) => {
+    event.preventDefault();
+    showWarningAlert('Từ chối yêu cầu đăng tải bài viết này?', result => {
+        if (result.isConfirmed) {
+            handlePostRequest(id, '/api/v1/articles/' + id + '/refuse', undefined, result => {
+                showSuccessAlert('Đã từ chối yêu cầu', () => {
+                    location.reload()
+                })
+            }, (xhr, status, error) => {
+                showErrorToast(getResponseTextAsJSON(xhr).message, 2000)
+            })
+        }
+    })
+}

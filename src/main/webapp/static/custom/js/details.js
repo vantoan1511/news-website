@@ -10,11 +10,13 @@ $(document).ready(() => {
 const handlePreviewButtonClick = (event) => {
     event.preventDefault();
     $('#iframe-container').removeClass("hidden");
+    $('body').css('overflow', 'hidden');
 }
 
 const handlePreviewCloseButtonClick = (event) => {
     event.preventDefault();
     $('#iframe-container').addClass("hidden");
+    $("body").css("overflow", "auto");
 }
 
 const getArticleDetailsFormData = (formSelector) => {
@@ -37,9 +39,9 @@ const handleArticleSaveButtonClick = (event, formSelector, saveAndClose, saveAnd
             else if (saveAndNew) location.replace('/admin/articles/new')
             else location.replace('/admin/articles/' + result.id)
         })
-    }, error => {
-        showErrorToast('Error', 1500)
-    });
+    }, (xhr, status, error) => {
+        showErrorToast(getResponseTextAsJSON(xhr).message, 2000)
+    })
 }
 
 const handleArticlePublishButtonClick = (event, id) => {
@@ -48,8 +50,8 @@ const handleArticlePublishButtonClick = (event, id) => {
         showSuccessAlert('Đã gửi yêu cầu đăng tải bài viết', () => {
             location.reload()
         })
-    }, error => {
-        showErrorToast('Error', 1500)
+    }, (xhr, status, error) => {
+        showErrorToast(getResponseTextAsJSON(xhr).message, 2000)
     })
 }
 
@@ -59,7 +61,20 @@ const handleArticleUnpublishButtonClick = (event, id) => {
         showSuccessAlert('Đã hủy đăng tải bài viết', () => {
             location.reload()
         })
-    }, error => {
-        showErrorToast('Error', 1500)
+    }, (xhr, status, error) => {
+        showErrorToast(getResponseTextAsJSON(xhr).message, 2000)
+    })
+}
+
+const handleArticleApproveButtonClick = (event, id) => {
+    event.preventDefault();
+    showWarningAlert('Bài viết sẽ được đăng tải công khai?', result => {
+        if (result.isConfirmed) {
+            handlePostRequest(id, '/api/v1/articles/' + id + '/approve', undefined, () => {
+                location.reload()
+            }, (xhr, status, error) => {
+                showErrorToast(getResponseTextAsJSON(xhr).message, 2000)
+            })
+        }
     })
 }

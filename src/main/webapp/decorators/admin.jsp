@@ -30,10 +30,10 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">
     <%--Select2--%>
     <link rel="stylesheet" href="/static/admin/plugins/select2/css/select2.min.css">
+    <%--Custom style--%>
+    <link rel="stylesheet" href="/static/custom/css/styles.css">
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
-    <link rel="stylesheet" href="/static/custom/css/styles.css">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -50,12 +50,6 @@
 
     <!-- Footer -->
     <%@ include file="/common/admin/footer.jsp" %>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
 
 </div>
 
