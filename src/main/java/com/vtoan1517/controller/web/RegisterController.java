@@ -49,16 +49,16 @@ public class RegisterController {
     @PostMapping("/register")
     public ModelAndView register(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult result,
                                  RedirectAttributes attributes, Locale locale) {
-        String path = "";
-        ModelAndView mav = new ModelAndView();
+        String viewName = "";
         if (result.hasErrors()) {
-            path = "web/register";
+            viewName = "web/register";
         } else {
+            userService.register(userDTO);
             attributes.addFlashAttribute("type", "success");
             attributes.addFlashAttribute("message", messageSource.getMessage("register.success", null, locale));
-            path = "redirect:login";
+            viewName = "redirect:login";
         }
-        mav.setViewName(path);
+        ModelAndView mav = new ModelAndView(viewName);
         return mav;
     }
 }
