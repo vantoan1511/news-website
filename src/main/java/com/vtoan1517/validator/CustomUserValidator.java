@@ -27,5 +27,7 @@ public class CustomUserValidator implements Validator {
         UserDTO userDTO = (UserDTO) target;
         if (userService.isExistingUsername(userDTO.getUsername()))
             errors.rejectValue("username", "username.exists", "Tên đăng nhập đã tồn tại!");
+        if (userService.isExistingEmail(userDTO.getEmail()))
+            errors.rejectValue("email", "email.exists", "Email đã liên kết với một tài khoản khác");
     }
 }
