@@ -6,7 +6,10 @@ import com.vtoan1517.repository.UserRepository;
 import com.vtoan1517.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -21,21 +24,28 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public boolean isExistingEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
     public boolean isExistingUsername(String username) {
-        return userRepository.findByUsername(username) != null;
+        return userRepository.findByUsername(username).isPresent();
     }
 
     @Override
     public UserDTO findByUsername(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username);
-        if (userEntity != null) {
-            return mapper.map(userEntity, UserDTO.class);
-        }
-        return null;
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+        return userEntity.map(entity -> mapper.map(entity, UserDTO.class)).orElse(null);
     }
 
     @Override
-    public UserDTO register(UserDTO userDTO) {
-        return null;
+    public UserDTO register(UserDTO newUserDTO) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        newUserDTO.setPassword(encoder.encode(newUserDTO.getPassword()));
+
+        UserEntity savedUser = userRepository.save(mapper.map(newUserDTO, UserEntity.class));
+
+        return mapper.map(savedUser, UserDTO.class);
     }
 }
