@@ -1,9 +1,12 @@
 package com.vtoan1517.service.impl;
 
-import com.vtoan1517.dto.MyUser;
+import com.vtoan1517.dto.CustomUser;
 import com.vtoan1517.entity.RoleEntity;
 import com.vtoan1517.entity.UserEntity;
 import com.vtoan1517.repository.UserRepository;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,21 +27,35 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
-        if (userEntity.isEmpty()) {
-            throw new UsernameNotFoundException("User not found!");
+
+        Optional<UserEntity> optionalUserEntity;
+        optionalUserEntity = isEmail(username) ? userRepository.findByEmail(username) : userRepository.findByUsername(username);
+
+        if (optionalUserEntity.isEmpty()) {
+            throw new UsernameNotFoundException("Không tìm thấy tài khoản với tên đăng nhập " + username);
         }
+
+        UserEntity userEntity = optionalUserEntity.get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (RoleEntity role : userEntity.get().getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role.getCode()));
+        for (RoleEntity roleEntity : userEntity.getRoles()) {
+            String code = roleEntity.getCode();
+            authorities.add(new SimpleGrantedAuthority(code));
         }
 
-        MyUser myUser = new MyUser(userEntity.get().getUsername(), userEntity.get().getPassword(), true, true, true, true,
-                authorities);
-        myUser.setFirstName(userEntity.get().getFirstName());
-        myUser.setLastName(userEntity.get().getLastName());
-        return myUser;
+        return CustomUser.builder()
+                .username(userEntity.getUsername())
+                .password(userEntity.getPassword())
+                .authorities(authorities)
+                .email(userEntity.getEmail())
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .activated(userEntity.isActivated())
+                .credentialsNonExpired(true)
+                .build();
     }
 
+    private boolean isEmail(String text) {
+        return text.contains("@");
+    }
 }
