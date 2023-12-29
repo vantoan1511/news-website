@@ -21,7 +21,7 @@
             </div>
             <div class="info">
                 <a href="#" class="d-block">
-                    <%=SecurityUtils.getPrincipal().getFullname()%>
+                    <%=SecurityUtils.getPrincipal().getFirstName()%>
                 </a>
             </div>
         </div>
