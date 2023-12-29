@@ -23,16 +23,7 @@
             </c:if>
 
             <form:form action="/register" modelAttribute="user" method="post" accept-charset="UTF-8">
-                <form:errors path="fullname" cssStyle="color: red"/>
-                <div class="input-group mb-3">
-                    <form:input path="fullname" class="form-control" cssErrorClass="form-control is-invalid"
-                                name="fullname" placeholder="Họ và tên"/>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
+
                 <form:errors path="email" cssStyle="color: red"/>
                 <div class="input-group mb-3">
                     <form:input path="email" cssClass="form-control" cssErrorClass="form-control is-invalid"
