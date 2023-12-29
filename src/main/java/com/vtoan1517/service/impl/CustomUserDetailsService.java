@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -23,19 +24,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByUsername(username);
-        if (userEntity == null) {
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+        if (userEntity.isEmpty()) {
             throw new UsernameNotFoundException("User not found!");
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (RoleEntity role : userEntity.getRoles()) {
+        for (RoleEntity role : userEntity.get().getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getCode()));
         }
 
-        MyUser myUser = new MyUser(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true,
+        MyUser myUser = new MyUser(userEntity.get().getUsername(), userEntity.get().getPassword(), true, true, true, true,
                 authorities);
-        myUser.setFullname(userEntity.getFullname());
+        myUser.setFirstName(userEntity.get().getFirstName());
+        myUser.setLastName(userEntity.get().getLastName());
         return myUser;
     }
 
