@@ -17,5 +17,7 @@ public class MyUser extends User {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 
-    private String fullname;
+    private String firstName;
+    private String lastName;
+
 }
