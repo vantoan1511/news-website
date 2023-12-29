@@ -1,5 +1,6 @@
 package com.vtoan1517.utils;
 
+import com.vtoan1517.dto.CustomUser;
 import com.vtoan1517.dto.MyUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,8 +10,8 @@ import java.util.List;
 
 public class SecurityUtils {
 
-    public static MyUser getPrincipal() {
-        return (MyUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    public static CustomUser getPrincipal() {
+        return (CustomUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @SuppressWarnings("unchecked")
