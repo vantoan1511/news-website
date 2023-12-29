@@ -95,7 +95,7 @@
                                 </sec:authorize>
                                 <sec:authorize access="isAuthenticated()">
                                     <li><a href="#"><i class="fa fa-user"></i> Xin
-                                        chào, <%=SecurityUtils.getPrincipal().getFirstName()%>
+                                        chào, <%=SecurityUtils.getPrincipal().getFullName()%>
                                     </a>
                                     </li>
                                     <li><a href="<c:url value="/logout"/>"><i class="fa fa-sign-out"></i> Thoát</a>
