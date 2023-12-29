@@ -4,6 +4,8 @@ import com.vtoan1517.dto.UserDTO;
 
 public interface IUserService {
 
+    boolean isExistingEmail(String email);
+
     boolean isExistingUsername(String username);
 
     UserDTO findByUsername(String username);
