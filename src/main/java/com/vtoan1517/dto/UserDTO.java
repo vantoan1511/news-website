@@ -1,28 +1,32 @@
 package com.vtoan1517.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.validation.annotation.Validated;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     @Email(message = "Email không đúng định dạng!")
-    @NotBlank(message = "Vui lòng nhập địa chỉ email!")
+    @Size(min = 1, max = 45, message = "Email có độ dài từ 1-45 ký tự")
     private String email;
-    @NotBlank(message = "Vui lòng nhập họ tên!")
-    @Pattern(regexp = ".*[a-zA-Z]+.", message = "Họ tên không hợp lệ!")
-    private String fullname;
-    @NotEmpty(message = "Vui lòng nhập tên đăng nhập!")
-    @Size(min = 1, max = 16, message = "Độ dài không hợp lệ!")
+    @Pattern(regexp = ".*[a-zA-Z]+.", message = "Họ tên chứa ký tự không hợp lệ!")
+    private String firstName;
+    @Pattern(regexp = ".*[a-zA-Z]+.", message = "Họ tên chứa ký tự không hợp lệ!")
+    private String lastName;
+    @Size(min = 1, max = 46, message = "Tên đăng nhập có độ dài từ 1-46 ký tự")
     private String username;
-    @NotEmpty(message = "Vui lòng nhập mật khẩu")
-    @Size(min = 1, max = 16, message = "Mật khẩu hợp lệ có độ dài từ 1-16 ký tự.")
+    @Size(min = 1, max = 64, message = "Mật khẩu có độ dài từ 1-64 ký tự.")
     private String password;
-
+    private boolean activated;
+    private String token;
+    private String avatarUrl;
 }
