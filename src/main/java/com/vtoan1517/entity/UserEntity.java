@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,17 +17,29 @@ import java.util.List;
 @Setter
 public class UserEntity extends BaseEntity {
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true, length = 45)
     private String email;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, unique = true, length = 46)
     private String username;
 
-    @Column(name = "fullname")
-    private String fullname;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "password")
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "password", nullable = false, length = 64)
     private String password;
+
+    @Column(name = "activated", columnDefinition = "tinyint default 0")
+    private boolean activated;
+
+    @Column(name = "token")
+    private String token;
+
+    @Column(name = "avatar_url", columnDefinition = "TEXT")
+    private String avatarUrl;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
