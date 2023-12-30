@@ -10,5 +10,9 @@ public interface IUserService {
 
     UserDTO findByUsername(String username);
 
+    UserDTO findByToken(String token);
+
     UserDTO register(UserDTO userDTO);
+
+    UserDTO activate(String token);
 }
