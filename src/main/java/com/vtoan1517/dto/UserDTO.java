@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
@@ -18,9 +18,9 @@ public class UserDTO {
     @Email(message = "Email không đúng định dạng!")
     @Size(min = 1, max = 45, message = "Email có độ dài từ 1-45 ký tự")
     private String email;
-    @Pattern(regexp = ".*[a-zA-Z]+.", message = "Họ tên chứa ký tự không hợp lệ!")
+    @NotBlank(message = "Họ không được để trống")
     private String firstName;
-    @Pattern(regexp = ".*[a-zA-Z]+.", message = "Họ tên chứa ký tự không hợp lệ!")
+    @NotBlank(message = "Tên không được để trống")
     private String lastName;
     @Size(min = 1, max = 46, message = "Tên đăng nhập có độ dài từ 1-46 ký tự")
     private String username;
