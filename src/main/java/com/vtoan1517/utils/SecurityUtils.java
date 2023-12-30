@@ -1,7 +1,6 @@
 package com.vtoan1517.utils;
 
 import com.vtoan1517.dto.CustomUser;
-import com.vtoan1517.dto.MyUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
