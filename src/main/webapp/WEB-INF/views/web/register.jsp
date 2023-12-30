@@ -16,47 +16,66 @@
 
     <div class="card card-outline card-success">
         <div class="card-body register-card-body">
-            <c:if test="${accountExisted == true}">
-                <div class="alert alert-default-danger" role="alert">
-                    Tên đăng nhập đã tồn tại!
-                </div>
-            </c:if>
 
             <form:form action="/register" modelAttribute="user" method="post" accept-charset="UTF-8">
-
-                <form:errors path="email" cssStyle="color: red"/>
+                <form:errors path="firstName" cssClass="error"/>
+                <form:errors path="lastName" cssClass="error"/>
+                <div class="input-group mb-3">
+                    <form:input path="firstName"
+                                maxlength="12"
+                                cssClass="form-control"
+                                placeholder="Họ"/>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="ri-user-line"></span>
+                        </div>
+                    </div>
+                    <form:input path="lastName"
+                                cssClass="form-control"
+                                placeholder="Tên"/>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="ri-user-line"></span>
+                        </div>
+                    </div>
+                </div>
+                <form:errors path="email" cssClass="error"/>
                 <div class="input-group mb-3">
                     <form:input path="email" cssClass="form-control" cssErrorClass="form-control is-invalid"
                                 placeholder="Email"/>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+                            <span class="ri-mail-line"></span>
                         </div>
                     </div>
                 </div>
-                <form:errors path="username" cssStyle="color: red"/>
+                <form:errors path="username" cssClass="error"/>
                 <div class="input-group mb-3">
-                    <form:input path="username" cssClass="form-control" cssErrorClass="form-control is-invalid"
+                    <form:input path="username"
+                                cssClass="form-control"
+                                cssErrorClass="form-control is-invalid"
                                 placeholder="Username"/>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="ri-user-add-line"></span>
                         </div>
                     </div>
                 </div>
-                <form:errors path="password" cssStyle="color: red"/>
+                <form:errors path="password" cssClass="error"/>
                 <div class="input-group mb-3">
-                    <form:input path="password" cssClass="form-control" cssErrorClass="form-control is-invalid"
-                                placeholder="Password"/>
+                    <form:password path="password"
+                                   cssClass="form-control"
+                                   cssErrorClass="form-control is-invalid"
+                                   placeholder="Password"/>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
+                            <span class="ri-lock-password-line"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="icheck-primary">
+                        <div class="icheck-success">
                             <input type="checkbox" id="agreeTerms" name="terms" value="agree">
                             <label for="agreeTerms">
                                 Tôi đã đọc và đồng ý với <a href="#">các điều khoản</a>
