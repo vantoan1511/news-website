@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="<c:url value="/static/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>">
     <!-- Theme style -->
     <link rel="stylesheet" href="<c:url value="/static/admin/dist/css/adminlte.min.css"/>">
+    <!-- Remix Icon -->
+    <link rel="stylesheet" href="<c:url value="/static/remixicon/remixicon.css"/>">
+
+    <link rel="stylesheet" href="<c:url value="/static/custom/css/styles.css"/>">
 </head>
 <body class="hold-transition login-page">
 

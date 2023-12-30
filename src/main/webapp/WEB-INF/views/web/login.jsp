@@ -23,15 +23,17 @@
             </c:if>
             <form action="/perform-login" method="post">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập"/>
+                    <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập/Email"/>
                     <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-user"></span></div>
+                        <div class="input-group-text"><span class="ri-user-line"></span></div>
                     </div>
                 </div>
                 <div class="input-group mb-3">
                     <input type="password" class="form-control" name="password" placeholder="Mật khẩu đăng nhập"/>
                     <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                        <div class="input-group-text">
+                            <span class="ri-lock-password-line"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -44,7 +46,9 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <button type="submit" class="btn bg-gradient-primary btn-block">Đăng nhập</button>
+                        <button type="submit"
+                                class="btn bg-gradient-primary btn-block">Đăng nhập <i class="ri-login-box-line"></i>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -52,13 +56,13 @@
             <div class="social-auth-links text-center mb-3">
                 <p>- hoặc -</p>
                 <a href="<c:url value="/register"/>" class="btn btn-block btn-outline-success">
-                    <i class="fas fa-user-plus"></i> Tạo tài khoản mới
+                    Tạo tài khoản mới <i class="ri-user-add-line"></i>
                 </a>
             </div>
             <!-- /.social-auth-links -->
 
             <p class="mb-1">
-                <a href="forgot-password.html">Quên mật khẩu?</a>
+                <a href="forgot-password.html">Quên mật khẩu <i class="ri-question-line"></i></a>
             </p>
         </div>
         <!-- /.login-card-body -->
