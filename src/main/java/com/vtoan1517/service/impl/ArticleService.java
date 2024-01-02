@@ -93,8 +93,12 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public ArticleDTO findById(long id) {
-        return mapper.map(articleRepository.findById(id), ArticleDTO.class);
+    public ArticleDTO findById(long id) throws ArticleNotFoundException {
+        try {
+            return mapper.map(articleRepository.findById(id), ArticleDTO.class);
+        } catch (Exception e) {
+            throw new ArticleNotFoundException(messageSource.getMessage("article.id.notfound", null, null) + id);
+        }
     }
 
     @Override
