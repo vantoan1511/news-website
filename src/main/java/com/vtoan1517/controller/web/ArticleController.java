@@ -5,7 +5,6 @@ import com.vtoan1517.exception.ArticleNotFoundException;
 import com.vtoan1517.service.IArticleService;
 import com.vtoan1517.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +36,7 @@ public class ArticleController {
             articleDTO = articleService.findBySlugAndStatus(slug, "published");
         }
 
-        ModelAndView mav = new ModelAndView("web/single");
+        ModelAndView mav = new ModelAndView("web/details");
         mav.addObject("article", articleDTO);
         return mav;
     }
