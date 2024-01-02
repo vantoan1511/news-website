@@ -87,7 +87,9 @@ const handleTrashButtonClick = (event, elements) => {
         }).get();
         ajaxRequest('/api/v1/media', 'DELETE', 'application/json', ids, 'json',
             result => {
-                showSuccessAlert('Đã chuyển' + ids.length + ' vào thùng rác')
+                showSuccessAlert('Đã chuyển ' + ids.length + ' vào thùng rác', () => {
+                    location.reload();
+                })
             }, error => {
                 showErrorToast('Lỗi', 1500)
             });
