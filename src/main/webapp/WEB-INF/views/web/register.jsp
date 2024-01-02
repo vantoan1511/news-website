@@ -10,7 +10,7 @@
 <div class="register-box">
     <div class="register-logo">
         <a href="<c:url value="/home"/>">
-            <img src="<c:url value="/static/web/img/core-img/logo.png"/>" alt="logo">
+            <img src="<c:url value="/static/web/images/toansnewslogo.png"/>" alt="logo">
         </a>
     </div>
 
@@ -86,7 +86,9 @@
                 <div class="row">
                     <!-- /.col -->
                     <div class="col">
-                        <button type="submit" class="btn bg-gradient-success btn-block">Đăng ký</button>
+                        <button type="submit"
+                                class="btn bg-gradient-success btn-block">
+                            Đăng ký <i class="ri-user-add-line"></i></button>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -94,9 +96,9 @@
 
             <div class="social-auth-links text-center">
                 <p>- hoặc -</p>
-                <a href="<c:url value="/login"/>" class="btn btn-block btn-outline-primary">
-                    <i class="fab fa-sign-in"></i>
-                    Đã có tài khoản
+                <a href="<c:url value="/login"/>"
+                   class="btn btn-block btn-outline-primary">
+                    Đã có tài khoản <i class="ri-login-circle-line"></i>
                 </a>
             </div>
         </div>

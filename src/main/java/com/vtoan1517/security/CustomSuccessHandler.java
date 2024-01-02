@@ -45,8 +45,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         List<String> roles = SecurityUtils.getAuthorities();
         if (isAdmin(roles) || isAuthor(roles)) {
             url = "/admin/home";
-        } else if (isUser(roles)) {
-            url = "/home";
         } else {
             url = "/home";
         }

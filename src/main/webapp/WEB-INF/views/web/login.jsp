@@ -10,7 +10,7 @@
 <div class="login-box">
     <div class="login-logo">
         <a href="<c:url value="/home"/>">
-            <img src="<c:url value="/static/web/img/core-img/logo.png"/>" alt="logo">
+            <img src="<c:url value="/static/web/images/toansnewslogo.png"/>" alt="logo">
         </a>
     </div>
     <!-- /.login-logo -->
