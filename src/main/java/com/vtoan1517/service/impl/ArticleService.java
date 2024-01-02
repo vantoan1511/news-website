@@ -88,6 +88,11 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
+    public List<ArticleDTO> findAllByStatusCodeAndFeatured(String statusCode, boolean featured, Pageable pageable) {
+        return mapper.map(articleRepository.findAllByStatusCodeAndFeatured(statusCode, featured, pageable), ArticleDTO.class);
+    }
+
+    @Override
     public ArticleDTO findById(long id) {
         return mapper.map(articleRepository.findById(id), ArticleDTO.class);
     }
