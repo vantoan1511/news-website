@@ -2,6 +2,7 @@ package com.vtoan1517.controller.web;
 
 import com.vtoan1517.dto.UserDTO;
 import com.vtoan1517.service.IUserService;
+import com.vtoan1517.utils.FlashMessage;
 import com.vtoan1517.validator.CustomUserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -29,7 +30,9 @@ public class RegisterController {
     private final MessageSource messageSource;
 
     @Autowired
-    public RegisterController(IUserService userService, CustomUserValidator userValidator, MessageSource messageSource) {
+    public RegisterController(IUserService userService,
+                              CustomUserValidator userValidator,
+                              MessageSource messageSource) {
         this.userService = userService;
         this.userValidator = userValidator;
         this.messageSource = messageSource;
@@ -47,18 +50,19 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public ModelAndView register(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult result,
-                                 RedirectAttributes attributes, Locale locale) {
-        String viewName = "";
-        if (result.hasErrors()) {
-            viewName = "web/register";
-        } else {
+    public ModelAndView register(@Valid @ModelAttribute("user") UserDTO userDTO,
+                                 BindingResult result,
+                                 RedirectAttributes attributes,
+                                 Locale locale) {
+        String viewName = "web/register";
+
+        if (!result.hasErrors()) {
             userService.register(userDTO);
-            attributes.addFlashAttribute("type", "success");
-            attributes.addFlashAttribute("message", messageSource.getMessage("register.success", null, locale));
-            viewName = "redirect:login";
+            attributes.addFlashAttribute("message",
+                    new FlashMessage(FlashMessage.SUCCESS, messageSource.getMessage("register.success", null, locale)));
+            viewName = "redirect:/login";
         }
-        ModelAndView mav = new ModelAndView(viewName);
-        return mav;
+
+        return new ModelAndView(viewName);
     }
 }
