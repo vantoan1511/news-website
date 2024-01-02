@@ -85,7 +85,7 @@
                         <th>Id</th>
                         <th>Tiêu đề</th>
                         <th>Trạng thái</th>
-                        <th>Nổi bật</th>
+                        <th class="text-center">Nổi bật</th>
                         <th>Thể loại</th>
                         <th>Lần sửa cuối</th>
                         <th>Tác giả</th>
@@ -113,7 +113,16 @@
                                 </a>
                             </td>
                             <td class="status-cell text-center">${article.statusName}</td>
-                            <td>${article.featured}</td>
+                            <td class="text-center">
+                                <c:choose>
+                                    <c:when test="${article.featured}">
+                                        <i class="ri-star-fill text-yellow"></i>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="ri-star-line"></i>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                             <td>${article.categoryName}</td>
                             <td>
                                 <fmt:formatDate value="${article.modifiedDate}" pattern="HH:mm dd/MM/yyyy"/>
