@@ -8,8 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,14 +20,21 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
     @ExceptionHandler(ArticleNotFoundException.class)
-    public ResponseEntity<Object> handleBusinessException(ArticleNotFoundException ex) {
-        ErrorResponse errorDetails = ErrorResponse.builder()
-                .timestamp(new Date())
-                .status(HttpStatus.NOT_FOUND.value())
-                .error("Lỗi không tìm thấy")
-                .message(ex.getMessage())
-                .build();
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object handleArticleNotFoundException(ArticleNotFoundException ex,
+                                                 HttpServletRequest request) {
+        if (isAPIRequest(request)) {
+            ErrorResponse errorDetails = ErrorResponse.builder()
+                    .timestamp(new Date())
+                    .status(HttpStatus.NOT_FOUND.value())
+                    .error("Lỗi không tìm thấy")
+                    .message(ex.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+        }
+
+        String viewName = isAdminRequest(request) ? "admin/404" : "web/404";
+        return new ModelAndView(viewName);
     }
 
     @ExceptionHandler(MethodNotAllowException.class)
@@ -64,4 +74,11 @@ public class ApplicationExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
+    private boolean isAPIRequest(HttpServletRequest request) {
+        return request.getRequestURI().contains("api");
+    }
+
+    private boolean isAdminRequest(HttpServletRequest request) {
+        return request.getRequestURI().contains("admin");
+    }
 }
