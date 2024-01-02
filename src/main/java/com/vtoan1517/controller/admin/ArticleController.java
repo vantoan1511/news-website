@@ -93,7 +93,7 @@ public class ArticleController {
     }
 
     @GetMapping({"/new", "/{id}"})
-    public ModelAndView createArticle(@PathVariable(name = "id", required = false) Long id) {
+    public ModelAndView createArticle(@PathVariable(name = "id", required = false) Long id) throws ArticleNotFoundException {
         List<String> roles = SecurityUtils.getAuthorities();
         ArticleDTO articleDTO = new ArticleDTO();
 
@@ -101,9 +101,9 @@ public class ArticleController {
             articleDTO = articleService.findById(id);
         }
 
-        String viewPath = "admin/article/details";
-        //if (roles.contains("author")) viewPath = "author/article/details";
-        ModelAndView mav = new ModelAndView(viewPath);
+        String viewName = "admin/article/details";
+        
+        ModelAndView mav = new ModelAndView(viewName);
         mav.addObject("model", articleDTO);
         mav.addObject("categories", categoryService.findAll());
         mav.addObject("access", accessService.findAll());
