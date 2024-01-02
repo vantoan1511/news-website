@@ -6,7 +6,7 @@
          http://www.springframework.org/schema/beans
          http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
     <http auto-config="false" use-expressions="true" disable-url-rewriting="true">
-        <intercept-url pattern="/admin/**" access="hasAnyRole('ADMIN', 'admin', 'author')"/>
+        <intercept-url pattern="/admin/**" access="hasAnyRole('admin', 'author')"/>
         <access-denied-handler
                 error-page="/access-denied"/>
         <form-login login-page="/login" default-target-url="/home"
