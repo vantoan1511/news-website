@@ -23,6 +23,8 @@ public interface IArticleService {
 
     List<ArticleDTO> findAllByFeatured(boolean featured, Pageable pageable);
 
+    List<ArticleDTO> findAllByStatusCodeAndFeatured(String statusCode, boolean featured, Pageable pageable);
+
     ArticleDTO findById(long id);
 
     ArticleDTO findBySlug(String slug) throws ArticleNotFoundException;
