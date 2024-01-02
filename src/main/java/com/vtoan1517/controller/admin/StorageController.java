@@ -21,9 +21,9 @@ public class StorageController {
     }
 
     @GetMapping
-    public ModelAndView show(HttpServletRequest request) {
+    public ModelAndView show() {
 
-        ModelAndView mav = new ModelAndView("author/storage/storage");
+        ModelAndView mav = new ModelAndView("admin/storage/storage");
         mav.addObject("images", mediaService.findAll());
         return mav;
     }
