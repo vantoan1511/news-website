@@ -17,8 +17,8 @@
     <div class="card card-outline card-primary">
         <div class="card-body login-card-body">
             <c:if test="${message != null}">
-                <div class="alert alert-default-${type}" role="alert">
-                        ${message}
+                <div class="alert alert-default-${message.type}" role="alert">
+                        ${message.message}
                 </div>
             </c:if>
             <form action="/perform-login" method="post">
@@ -62,7 +62,7 @@
             <!-- /.social-auth-links -->
 
             <p class="mb-1">
-                <a href="forgot-password.html">Quên mật khẩu <i class="ri-question-line"></i></a>
+                <a href="/forgot">Quên mật khẩu <i class="ri-question-line"></i></a>
             </p>
         </div>
         <!-- /.login-card-body -->
