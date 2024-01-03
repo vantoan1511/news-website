@@ -33,7 +33,6 @@ public class HomeController {
         List<ArticleDTO> popular = articleService.findAllByStatusCode("published", popularReq);
 
         ModelAndView mav = new ModelAndView("web/home");
-        mav.addObject("latestArticles", articleService.findAll());
         mav.addObject("featured", featured);
         mav.addObject("latest", latest);
         mav.addObject("popular", popular);
