@@ -20,8 +20,8 @@
             <ul class="nav-list">
                 <li class="for-tablet nav-title"><a>Menu</a></li>
                 <sec:authorize access="isAnonymous()">
-                    <li class="for-tablet"><a href="login.html">Login</a></li>
-                    <li class="for-tablet"><a href="register.html">Register</a></li>
+                    <li class="for-tablet"><a href="/login">Login</a></li>
+                    <li class="for-tablet"><a href="/register">Register</a></li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <li class="for-tablet">
@@ -30,9 +30,9 @@
                     </li>
                     <li class="for-tablet"><a href="/logout">Logout</a></li>
                 </sec:authorize>
-                <li><a href="category.html">Standard</a></li>
+                <li><a href="/home">Trang chủ</a></li>
                 <li class="dropdown magz-dropdown magz-dropdown-megamenu">
-                    <a href="#">Column <i class="ion-ios-arrow-right"></i></a>
+                    <a href="#">Tất cả <i class="ion-ios-arrow-right"></i></a>
                     <div class="dropdown-menu megamenu">
                         <div class="megamenu-inner">
                             <div class="row">
