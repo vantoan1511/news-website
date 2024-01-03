@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="/static/web/css/skins/all.css">
     <link rel="stylesheet" href="/static/web/css/demo.css">
     <link rel="stylesheet" href="../static/remixicon/remixicon.css">
+
+    <script src="/static/web/js/jquery.js"></script>
+
 </head>
 <body class="skin-orange">
 
@@ -37,8 +40,6 @@
 
 
 <!-- JS -->
-<script src="/static/web/js/jquery.js"></script>
-<script src="/static/web/js/jquery.	migrate.js"></script>
 <script src="/static/web/scripts/bootstrap/bootstrap.min.js"></script>
 <script>var $target_end = $(".best-of-the-week");</script>
 <script src="/static/web/scripts/jquery-number/jquery.number.min.js"></script>
