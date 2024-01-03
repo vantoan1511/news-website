@@ -2,6 +2,7 @@ package com.vtoan1517.service.impl;
 
 import com.vtoan1517.dto.CategoryDTO;
 import com.vtoan1517.entity.Category;
+import com.vtoan1517.exception.CategoryNotFoundException;
 import com.vtoan1517.repository.CategoryRepository;
 import com.vtoan1517.service.ICategoryService;
 import com.vtoan1517.utils.CollectionMapper;
@@ -33,5 +34,12 @@ public class CategoryService implements ICategoryService {
     @Override
     public Map<String, String> findAll() {
         return mapper.map(categoryRepository.findAll(), Category::getCode, Category::getName);
+    }
+
+    @Override
+    public CategoryDTO findByCode(String code) throws CategoryNotFoundException {
+        Category category = categoryRepository.findByCode(code);
+        if (category == null) throw new CategoryNotFoundException("Không tìm thấy chuyên mục " + code);
+        return mapper.map(category, CategoryDTO.class);
     }
 }
