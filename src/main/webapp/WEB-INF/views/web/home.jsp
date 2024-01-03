@@ -8,29 +8,29 @@
         <div class="row">
             <div class="col-md-8 col-sm-12 col-xs-12">
 
-                <%@include file="../../../common/web/headline.jsp" %>
+                <%@include file="../components/web/headline.jsp" %>
 
-                <%@include file="../../../common/web/featured.jsp" %>
+                <%@include file="../components/web/featured.jsp" %>
 
                 <div class="line">
                     <div>Latest News</div>
                 </div>
 
-                <%@include file="../../../common/web/latest.jsp" %>
+                <%@include file="../components/web/latest.jsp" %>
 
                 <div class="line top">
                     <div>Related News</div>
                 </div>
 
-                <%@include file="../../../common/web/related.jsp" %>
+                <%@include file="../components/web/related.jsp" %>
             </div>
 
-            <%@include file="../../../common/web/sidebar.jsp" %>
+            <%@include file="../components/web/sidebar.jsp" %>
 
         </div>
     </div>
 </section>
 
-<%@ include file="../../../common/web/bestOfTheWeek.jsp" %>
+<%@ include file="../components/web/bestOfTheWeek.jsp" %>
 </body>
 </html>
