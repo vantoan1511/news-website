@@ -159,6 +159,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
+    @Transactional
     public ArticleDTO publish(long id) {
         ArticleDTO articleDTO = new ArticleDTO();
         article = articleRepository.findById(id);
@@ -172,6 +173,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
+    @Transactional
     public ArticleDTO approve(long id) {
         ArticleDTO articleDTO = new ArticleDTO();
         article = articleRepository.findById(id);
@@ -186,6 +188,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
+    @Transactional
     public ArticleDTO refuse(long id) {
         ArticleDTO articleDTO = new ArticleDTO();
         article = articleRepository.findById(id);
@@ -199,6 +202,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
+    @Transactional
     public ArticleDTO unpublish(long id) throws ArticleNotFoundException {
         ArticleDTO articleDTO = new ArticleDTO();
         article = articleRepository.findById(id);
@@ -237,6 +241,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
+    @Transactional
     public ArticleDTO trash(long id) throws ArticleNotFoundException {
         article = articleRepository.findById(id);
 
