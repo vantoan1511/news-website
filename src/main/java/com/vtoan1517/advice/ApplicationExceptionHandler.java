@@ -2,14 +2,15 @@ package com.vtoan1517.advice;
 
 import com.vtoan1517.dto.ErrorResponse;
 import com.vtoan1517.exception.ArticleNotFoundException;
-import com.vtoan1517.exception.ResourceNotFoundException;
+import com.vtoan1517.exception.CategoryNotFoundException;
 import com.vtoan1517.exception.MethodNotAllowException;
+import com.vtoan1517.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,20 +18,28 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class ApplicationExceptionHandler {
     @ExceptionHandler(ArticleNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Object handleArticleNotFoundException(ArticleNotFoundException ex,
                                                  HttpServletRequest request) {
         if (isAPIRequest(request)) {
-            ErrorResponse errorDetails = ErrorResponse.builder()
-                    .timestamp(new Date())
-                    .status(HttpStatus.NOT_FOUND.value())
-                    .error("Lỗi không tìm thấy")
-                    .message(ex.getMessage())
-                    .build();
-            return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(errorDetails(HttpStatus.NOT_FOUND.value(), ex.getMessage(), ex.getMessage()),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        String viewName = isAdminRequest(request) ? "admin/404" : "web/404";
+        return new ModelAndView(viewName);
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object handleCategoryNotFoundException(CategoryNotFoundException ex,
+                                                  HttpServletRequest request) {
+        if (isAPIRequest(request)) {
+            return new ResponseEntity<>(errorDetails(HttpStatus.NOT_FOUND.value(), ex.getMessage(), ex.getMessage()),
+                    HttpStatus.NOT_FOUND);
         }
 
         String viewName = isAdminRequest(request) ? "admin/404" : "web/404";
@@ -80,5 +89,14 @@ public class ApplicationExceptionHandler {
 
     private boolean isAdminRequest(HttpServletRequest request) {
         return request.getRequestURI().contains("admin");
+    }
+
+    private ErrorResponse errorDetails(int status, String error, String message) {
+        return ErrorResponse.builder()
+                .timestamp(new Date())
+                .status(status)
+                .error(error)
+                .message(message)
+                .build();
     }
 }
