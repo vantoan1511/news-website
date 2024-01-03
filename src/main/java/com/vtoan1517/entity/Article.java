@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "article")
 @Getter
 @Setter
-public class ArticleEntity extends BaseEntity {
+public class Article extends Base {
 
     @Column(columnDefinition = "varchar(255) default 'Bài viết không có tiêu đề'")
     private String title;
@@ -34,13 +34,13 @@ public class ArticleEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "access_id", nullable = false)
-    private AccessEntity access;
+    private Access access;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private CategoryEntity category;
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
-    private StatusEntity status;
+    private Status status;
 }

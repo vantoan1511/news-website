@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "status")
 @Getter
 @Setter
-public class StatusEntity extends BaseEntity {
+public class Status extends Base {
 
     @Column(nullable = false, unique = true)
     private String code;

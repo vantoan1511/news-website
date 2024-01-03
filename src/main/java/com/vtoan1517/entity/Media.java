@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "media")
 @Getter
 @Setter
-public class MediaEntity extends BaseEntity {
+public class Media extends Base {
 
     @Column
     private String title;

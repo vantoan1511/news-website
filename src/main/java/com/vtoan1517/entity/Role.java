@@ -14,14 +14,18 @@ import java.util.List;
 @Table(name = "role")
 @Getter
 @Setter
-public class RoleEntity extends BaseEntity {
+public class Role extends Base {
+
+    public static final String ROLE_ADMIN = "admin";
+    public static final String ROLE_AUTHOR = "author";
+    public static final String ROLE_USER = "user";
 
     @Column
     private String code;
-    
+
     @Column
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private List<UserEntity> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 }

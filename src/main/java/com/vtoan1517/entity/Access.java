@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "access")
 @Getter
 @Setter
-public class AccessEntity extends BaseEntity {
+public class Access extends Base {
 
     @Column(unique = true, nullable = false)
     private String code;
@@ -23,5 +23,5 @@ public class AccessEntity extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "access")
-    private List<ArticleEntity> articles = new ArrayList<>();
+    private List<Article> articles = new ArrayList<>();
 }

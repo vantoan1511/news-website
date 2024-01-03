@@ -1,12 +1,9 @@
 package com.vtoan1517.service.impl;
 
 import com.vtoan1517.dto.CustomUser;
-import com.vtoan1517.entity.RoleEntity;
-import com.vtoan1517.entity.UserEntity;
+import com.vtoan1517.entity.Role;
+import com.vtoan1517.entity.User;
 import com.vtoan1517.repository.UserRepository;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,29 +25,29 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<UserEntity> optionalUserEntity;
+        Optional<User> optionalUserEntity;
         optionalUserEntity = isEmail(username) ? userRepository.findByEmail(username) : userRepository.findByUsername(username);
 
         if (optionalUserEntity.isEmpty()) {
             throw new UsernameNotFoundException("Không tìm thấy tài khoản với tên đăng nhập " + username);
         }
 
-        UserEntity userEntity = optionalUserEntity.get();
+        User user = optionalUserEntity.get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (RoleEntity roleEntity : userEntity.getRoles()) {
-            String code = roleEntity.getCode();
+        for (Role role : user.getRoles()) {
+            String code = role.getCode();
             authorities.add(new SimpleGrantedAuthority(code));
         }
 
         return CustomUser.builder()
-                .username(userEntity.getUsername())
-                .password(userEntity.getPassword())
+                .username(user.getUsername())
+                .password(user.getPassword())
                 .authorities(authorities)
-                .email(userEntity.getEmail())
-                .firstName(userEntity.getFirstName())
-                .lastName(userEntity.getLastName())
-                .activated(userEntity.isActivated())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .activated(user.isActivated())
                 .credentialsNonExpired(true)
                 .build();
     }

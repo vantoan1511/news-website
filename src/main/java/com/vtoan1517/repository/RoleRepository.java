@@ -1,9 +1,9 @@
 package com.vtoan1517.repository;
 
-import com.vtoan1517.entity.RoleEntity;
+import com.vtoan1517.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    RoleEntity findByCode(String code);
+    Role findByCode(String code);
 }

@@ -1,7 +1,7 @@
 package com.vtoan1517.service.impl;
 
 import com.vtoan1517.dto.StatusDTO;
-import com.vtoan1517.entity.StatusEntity;
+import com.vtoan1517.entity.Status;
 import com.vtoan1517.repository.StatusRepository;
 import com.vtoan1517.service.IStatusService;
 import com.vtoan1517.utils.CollectionMapper;
@@ -24,12 +24,12 @@ public class StatusService implements IStatusService {
 
     @Override
     public Map<String, String> findAll() {
-        return mapper.map(statusRepository.findAll(), StatusEntity::getCode, StatusEntity::getName);
+        return mapper.map(statusRepository.findAll(), Status::getCode, Status::getName);
     }
 
     @Override
     public StatusDTO save(StatusDTO statusDTO) {
-        StatusEntity statusEntity = mapper.map(statusDTO, StatusEntity.class);
+        Status statusEntity = mapper.map(statusDTO, Status.class);
         return mapper.map(statusRepository.save(statusEntity), StatusDTO.class);
     }
 }

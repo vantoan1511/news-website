@@ -1,35 +1,35 @@
 package com.vtoan1517.repository;
 
-import com.vtoan1517.entity.ArticleEntity;
+import com.vtoan1517.entity.Article;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 
-    List<ArticleEntity> findAllByStatusCodeNot(String statusCode, Pageable pageable);
+    List<Article> findAllByStatusCodeNot(String statusCode, Pageable pageable);
 
-    List<ArticleEntity> findAllByStatusCodeNotAndCreatedBy(String statusCode, String createdBy, Pageable pageable);
+    List<Article> findAllByStatusCodeNotAndCreatedBy(String statusCode, String createdBy, Pageable pageable);
 
-    List<ArticleEntity> findAllByCreatedBy(String createdBy, Pageable pageable);
+    List<Article> findAllByCreatedBy(String createdBy, Pageable pageable);
 
-    List<ArticleEntity> findAllByFeaturedAndCreatedBy(boolean featured, String createdBy, Pageable pageable);
+    List<Article> findAllByFeaturedAndCreatedBy(boolean featured, String createdBy, Pageable pageable);
 
-    List<ArticleEntity> findAllByStatusCode(String statusCode, Pageable pageable);
+    List<Article> findAllByStatusCode(String statusCode, Pageable pageable);
 
-    List<ArticleEntity> findAllByStatusCodeAndCreatedBy(String statusCode, String createdBy, Pageable pageable);
+    List<Article> findAllByStatusCodeAndCreatedBy(String statusCode, String createdBy, Pageable pageable);
 
-    List<ArticleEntity> findAllByFeatured(boolean featured, Pageable pageable);
+    List<Article> findAllByFeatured(boolean featured, Pageable pageable);
 
-    List<ArticleEntity> findAllByStatusCodeAndFeatured(String statusCode, boolean featured, Pageable pageable);
+    List<Article> findAllByStatusCodeAndFeatured(String statusCode, boolean featured, Pageable pageable);
 
-    ArticleEntity findById(long id);
+    Article findById(long id);
 
-    ArticleEntity findBySlug(String slug);
+    Article findBySlug(String slug);
 
-    ArticleEntity findBySlugAndStatusCode(String slug, String statusCode);
+    Article findBySlugAndStatusCode(String slug, String statusCode);
 
     long countAllByStatusCodeNot(String statusCode);
 

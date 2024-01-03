@@ -1,10 +1,10 @@
 package com.vtoan1517.service.impl;
 
 import com.vtoan1517.dto.ArticleDTO;
-import com.vtoan1517.entity.AccessEntity;
-import com.vtoan1517.entity.ArticleEntity;
-import com.vtoan1517.entity.CategoryEntity;
-import com.vtoan1517.entity.StatusEntity;
+import com.vtoan1517.entity.Access;
+import com.vtoan1517.entity.Article;
+import com.vtoan1517.entity.Category;
+import com.vtoan1517.entity.Status;
 import com.vtoan1517.exception.ArticleNotFoundException;
 import com.vtoan1517.exception.MethodNotAllowException;
 import com.vtoan1517.repository.AccessRepository;
@@ -39,7 +39,7 @@ public class ArticleService implements IArticleService {
 
     private final MessageSource messageSource;
 
-    private ArticleEntity articleEntity;
+    private Article article;
 
     @Autowired
     public ArticleService(ArticleRepository articleRepository, AccessRepository accessRepository,
@@ -103,41 +103,41 @@ public class ArticleService implements IArticleService {
 
     @Override
     public ArticleDTO findBySlug(String slug) throws ArticleNotFoundException {
-        articleEntity = articleRepository.findBySlug(slug);
+        article = articleRepository.findBySlug(slug);
 
-        if (articleEntity == null) {
+        if (article == null) {
             throw new ArticleNotFoundException(messageSource.getMessage("article.slug.notfound", null, null) + slug);
         }
 
-        return mapper.map(articleEntity, ArticleDTO.class);
+        return mapper.map(article, ArticleDTO.class);
     }
 
     @Override
     public ArticleDTO findBySlugAndStatus(String slug, String status) throws ArticleNotFoundException {
-        articleEntity = articleRepository.findBySlugAndStatusCode(slug, status);
-        if (Objects.isNull(articleEntity)) {
+        article = articleRepository.findBySlugAndStatusCode(slug, status);
+        if (Objects.isNull(article)) {
             throw new ArticleNotFoundException("Bài viết không tồn tại hoặc không còn trên hệ thống");
         }
-        return mapper.map(articleEntity, ArticleDTO.class);
+        return mapper.map(article, ArticleDTO.class);
     }
 
     @Override
     @Transactional
     public ArticleDTO save(ArticleDTO articleDTO) {
-        AccessEntity accessEntity = accessRepository.findByCode(articleDTO.getAccessCode());
-        CategoryEntity categoryEntity = categoryRepository.findByCode(articleDTO.getCategoryCode());
-        StatusEntity statusEntity = statusRepository.findByCode(articleDTO.getStatusCode());
-        ArticleEntity oldArticle = new ArticleEntity();
-        articleEntity = mapper.map(articleDTO, ArticleEntity.class);
+        Access accessEntity = accessRepository.findByCode(articleDTO.getAccessCode());
+        Category categoryEntity = categoryRepository.findByCode(articleDTO.getCategoryCode());
+        Status statusEntity = statusRepository.findByCode(articleDTO.getStatusCode());
+        Article oldArticle = new Article();
+        article = mapper.map(articleDTO, Article.class);
 
-        articleEntity.setAccess(accessEntity);
-        articleEntity.setCategory(categoryEntity);
-        articleEntity.setStatus(statusEntity);
+        article.setAccess(accessEntity);
+        article.setCategory(categoryEntity);
+        article.setStatus(statusEntity);
 
         if (articleDTO.getId() != 0) {
             oldArticle = articleRepository.findById(articleDTO.getId());
-            articleEntity.setCreatedBy(oldArticle.getCreatedBy());
-            articleEntity.setCreatedDate(oldArticle.getCreatedDate());
+            article.setCreatedBy(oldArticle.getCreatedBy());
+            article.setCreatedDate(oldArticle.getCreatedDate());
         }
 
         String newSlug = SlugGenerator.slugify.slugify(articleDTO.getSlug());
@@ -151,22 +151,22 @@ public class ArticleService implements IArticleService {
                 newSlug = SlugGenerator.generateUniqueSlug(newSlug);
             }
         }
-        articleEntity.setSlug(newSlug);
+        article.setSlug(newSlug);
 
-        articleEntity = articleRepository.save(articleEntity);
-        articleDTO = mapper.map(articleEntity, articleDTO.getClass());
+        article = articleRepository.save(article);
+        articleDTO = mapper.map(article, articleDTO.getClass());
         return articleDTO;
     }
 
     @Override
     public ArticleDTO publish(long id) {
         ArticleDTO articleDTO = new ArticleDTO();
-        articleEntity = articleRepository.findById(id);
-        if (articleEntity.getStatus().getCode().equalsIgnoreCase("draft")) {
-            StatusEntity statusEntity = statusRepository.findByCode("pending");
-            articleEntity.setStatus(statusEntity);
-            articleEntity = articleRepository.save(articleEntity);
-            articleDTO = mapper.map(articleEntity, ArticleDTO.class);
+        article = articleRepository.findById(id);
+        if (article.getStatus().getCode().equalsIgnoreCase("draft")) {
+            Status statusEntity = statusRepository.findByCode("pending");
+            article.setStatus(statusEntity);
+            article = articleRepository.save(article);
+            articleDTO = mapper.map(article, ArticleDTO.class);
         }
         return articleDTO;
     }
@@ -174,13 +174,13 @@ public class ArticleService implements IArticleService {
     @Override
     public ArticleDTO approve(long id) {
         ArticleDTO articleDTO = new ArticleDTO();
-        articleEntity = articleRepository.findById(id);
-        if (articleEntity.getStatus().getCode().equalsIgnoreCase("pending")) {
-            StatusEntity status = statusRepository.findByCode("published");
-            articleEntity.setStatus(status);
-            articleEntity.setPublishedDate(new Date());
-            articleEntity = articleRepository.save(articleEntity);
-            articleDTO = mapper.map(articleEntity, ArticleDTO.class);
+        article = articleRepository.findById(id);
+        if (article.getStatus().getCode().equalsIgnoreCase("pending")) {
+            Status status = statusRepository.findByCode("published");
+            article.setStatus(status);
+            article.setPublishedDate(new Date());
+            article = articleRepository.save(article);
+            articleDTO = mapper.map(article, ArticleDTO.class);
         }
         return articleDTO;
     }
@@ -188,12 +188,12 @@ public class ArticleService implements IArticleService {
     @Override
     public ArticleDTO refuse(long id) {
         ArticleDTO articleDTO = new ArticleDTO();
-        articleEntity = articleRepository.findById(id);
-        if (articleEntity != null && articleEntity.getStatus().getCode().equalsIgnoreCase("pending")) {
-            StatusEntity statusEntity = statusRepository.findByCode("draft");
-            articleEntity.setStatus(statusEntity);
-            articleEntity = articleRepository.save(articleEntity);
-            articleDTO = mapper.map(articleEntity, ArticleDTO.class);
+        article = articleRepository.findById(id);
+        if (article != null && article.getStatus().getCode().equalsIgnoreCase("pending")) {
+            Status statusEntity = statusRepository.findByCode("draft");
+            article.setStatus(statusEntity);
+            article = articleRepository.save(article);
+            articleDTO = mapper.map(article, ArticleDTO.class);
         }
         return articleDTO;
     }
@@ -201,14 +201,14 @@ public class ArticleService implements IArticleService {
     @Override
     public ArticleDTO unpublish(long id) throws ArticleNotFoundException {
         ArticleDTO articleDTO = new ArticleDTO();
-        articleEntity = articleRepository.findById(id);
-        if (articleEntity != null) {
-            String currentStatus = articleEntity.getStatus().getCode();
+        article = articleRepository.findById(id);
+        if (article != null) {
+            String currentStatus = article.getStatus().getCode();
             if (currentStatus.equalsIgnoreCase("pending") || currentStatus.equalsIgnoreCase("published")) {
-                StatusEntity statusEntity = statusRepository.findByCode("draft");
-                articleEntity.setStatus(statusEntity);
-                articleEntity = articleRepository.save(articleEntity);
-                mapper.map(articleEntity, ArticleDTO.class);
+                Status statusEntity = statusRepository.findByCode("draft");
+                article.setStatus(statusEntity);
+                article = articleRepository.save(article);
+                mapper.map(article, ArticleDTO.class);
             }
             return articleDTO;
         } else {
@@ -221,12 +221,12 @@ public class ArticleService implements IArticleService {
     @Transactional
     public ArticleDTO restore(long id) {
         ArticleDTO articleDTO = new ArticleDTO();
-        articleEntity = articleRepository.findById(id);
-        if (articleEntity.getStatus().getCode().equalsIgnoreCase("trash")) {
-            StatusEntity statusEntity = statusRepository.findByCode("draft");
-            articleEntity.setStatus(statusEntity);
-            articleEntity = articleRepository.save(articleEntity);
-            mapper.map(articleEntity, ArticleDTO.class);
+        article = articleRepository.findById(id);
+        if (article.getStatus().getCode().equalsIgnoreCase("trash")) {
+            Status statusEntity = statusRepository.findByCode("draft");
+            article.setStatus(statusEntity);
+            article = articleRepository.save(article);
+            mapper.map(article, ArticleDTO.class);
         }
         return articleDTO;
     }
@@ -238,29 +238,29 @@ public class ArticleService implements IArticleService {
 
     @Override
     public ArticleDTO trash(long id) throws ArticleNotFoundException {
-        articleEntity = articleRepository.findById(id);
+        article = articleRepository.findById(id);
 
-        if (articleEntity == null) {
+        if (article == null) {
             throw new ArticleNotFoundException(
                     messageSource.getMessage("article.id.notfound", null, null) + id);
         }
 
-        StatusEntity statusEntity = statusRepository.findByCode("trash");
-        articleEntity.setStatus(statusEntity);
-        articleEntity.setFeatured(false);
-        articleEntity = articleRepository.save(articleEntity);
-        return mapper.map(articleEntity, ArticleDTO.class);
+        Status statusEntity = statusRepository.findByCode("trash");
+        article.setStatus(statusEntity);
+        article.setFeatured(false);
+        article = articleRepository.save(article);
+        return mapper.map(article, ArticleDTO.class);
     }
 
     @Override
     @Transactional
     public void trash(long[] ids) {
-        StatusEntity status = statusRepository.findByCode("trash");
+        Status status = statusRepository.findByCode("trash");
         for (long id : ids) {
-            articleEntity = articleRepository.findById(id);
-            articleEntity.setStatus(status);
-            articleEntity.setFeatured(false);
-            articleRepository.save(articleEntity);
+            article = articleRepository.findById(id);
+            article.setStatus(status);
+            article.setFeatured(false);
+            articleRepository.save(article);
         }
     }
 
@@ -275,13 +275,13 @@ public class ArticleService implements IArticleService {
     @Override
     @Transactional
     public void delete(long id) throws ArticleNotFoundException, MethodNotAllowException {
-        articleEntity = articleRepository.findById(id);
+        article = articleRepository.findById(id);
 
-        if (articleEntity == null) {
+        if (article == null) {
             throw new ArticleNotFoundException(
                     messageSource.getMessage("article.id.notfound", null, null) + id);
         }
-        if (!articleEntity.getStatus().getCode().equalsIgnoreCase("trash")) {
+        if (!article.getStatus().getCode().equalsIgnoreCase("trash")) {
             throw new MethodNotAllowException(
                     messageSource.getMessage("article.delete.notallowed", null, null) + id);
         }

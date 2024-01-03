@@ -5,12 +5,12 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit name="persistence-data">
-        <class>com.vtoan1517.entity.UserEntity</class>
-        <class>com.vtoan1517.entity.RoleEntity</class>
-        <class>com.vtoan1517.entity.ArticleEntity</class>
-        <class>com.vtoan1517.entity.AccessEntity</class>
-        <class>com.vtoan1517.entity.CategoryEntity</class>
-        <class>com.vtoan1517.entity.StatusEntity</class>
-        <class>com.vtoan1517.entity.MediaEntity</class>
+        <class>com.vtoan1517.entity.User</class>
+        <class>com.vtoan1517.entity.Role</class>
+        <class>com.vtoan1517.entity.Article</class>
+        <class>com.vtoan1517.entity.Access</class>
+        <class>com.vtoan1517.entity.Category</class>
+        <class>com.vtoan1517.entity.Status</class>
+        <class>com.vtoan1517.entity.Media</class>
     </persistence-unit>
 </persistence>

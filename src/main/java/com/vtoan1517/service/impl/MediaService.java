@@ -1,8 +1,7 @@
 package com.vtoan1517.service.impl;
 
-import com.github.slugify.Slugify;
 import com.vtoan1517.dto.MediaDTO;
-import com.vtoan1517.entity.MediaEntity;
+import com.vtoan1517.entity.Media;
 import com.vtoan1517.exception.ResourceNotFoundException;
 import com.vtoan1517.repository.MediaRepository;
 import com.vtoan1517.service.IMediaService;
@@ -76,7 +75,7 @@ public class MediaService implements IMediaService {
 
     @Override
     public MediaDTO save(MediaDTO mediaDTO) {
-        MediaEntity mediaEntity = mapper.map(mediaDTO, MediaEntity.class);
+        Media mediaEntity = mapper.map(mediaDTO, Media.class);
         mediaEntity = mediaRepository.save(mediaEntity);
         return mapper.map(mediaEntity, MediaDTO.class);
     }
@@ -85,7 +84,7 @@ public class MediaService implements IMediaService {
     public List<Long> delete(List<Long> ids) throws ResourceNotFoundException {
         List<Long> result = new ArrayList<>();
         for (long id : ids) {
-            MediaEntity mediaEntity = mediaRepository.findOne(id);
+            Media mediaEntity = mediaRepository.findOne(id);
 
             if (mediaEntity != null) {
                 File file = new File(mediaEntity.getDirectory());

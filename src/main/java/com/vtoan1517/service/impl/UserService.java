@@ -2,8 +2,8 @@ package com.vtoan1517.service.impl;
 
 import com.vtoan1517.constant.Application;
 import com.vtoan1517.dto.UserDTO;
-import com.vtoan1517.entity.RoleEntity;
-import com.vtoan1517.entity.UserEntity;
+import com.vtoan1517.entity.Role;
+import com.vtoan1517.entity.User;
 import com.vtoan1517.exception.EmailNotFoundException;
 import com.vtoan1517.exception.InvalidUserTokenException;
 import com.vtoan1517.repository.RoleRepository;
@@ -54,13 +54,13 @@ public class UserService implements IUserService {
 
     @Override
     public UserDTO findByUsername(String username) {
-        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+        Optional<User> userEntity = userRepository.findByUsername(username);
         return userEntity.map(entity -> mapper.map(entity, UserDTO.class)).orElse(null);
     }
 
     @Override
     public UserDTO findByToken(String token) {
-        Optional<UserEntity> userEntity = userRepository.findByToken(token);
+        Optional<User> userEntity = userRepository.findByToken(token);
         return userEntity.map(entity -> mapper.map(entity, UserDTO.class)).orElse(null);
     }
 
@@ -81,9 +81,9 @@ public class UserService implements IUserService {
         text.append("'>Kich hoat ngay!</a>");
         emailService.sendSimpleEmail(newUserDTO.getEmail(), "Kích hoạt tài khoản", text.toString());
 
-        UserEntity savedUser = mapper.map(newUserDTO, UserEntity.class);
-        RoleEntity roleEntity = roleRepository.findByCode("user");
-        savedUser.setRoles(Collections.singletonList(roleEntity));
+        User savedUser = mapper.map(newUserDTO, User.class);
+        Role role = roleRepository.findByCode("user");
+        savedUser.setRoles(Collections.singletonList(role));
         savedUser = userRepository.save(savedUser);
 
         return mapper.map(savedUser, UserDTO.class);
@@ -91,25 +91,25 @@ public class UserService implements IUserService {
 
     @Override
     public UserDTO activate(String token) {
-        Optional<UserEntity> found = userRepository.findByToken(token);
+        Optional<User> found = userRepository.findByToken(token);
         if (found.isPresent()) {
-            UserEntity userEntity = found.get();
-            userEntity.setToken(null);
-            userEntity.setActivated(true);
-            userEntity = userRepository.save(userEntity);
-            return mapper.map(userEntity, UserDTO.class);
+            User user = found.get();
+            user.setToken(null);
+            user.setActivated(true);
+            user = userRepository.save(user);
+            return mapper.map(user, UserDTO.class);
         }
         return null;
     }
 
     @Override
     public void resetPassword(String email) throws EmailNotFoundException {
-        Optional<UserEntity> found = userRepository.findByEmail(email);
+        Optional<User> found = userRepository.findByEmail(email);
         if (found.isPresent()) {
-            UserEntity userEntity = found.get();
+            User user = found.get();
             String token = UUID.randomUUID().toString();
-            userEntity.setToken(token);
-            userEntity = userRepository.save(userEntity);
+            user.setToken(token);
+            user = userRepository.save(user);
 
             StringBuilder text = new StringBuilder();
             text.append("Click vao link sau day de reset mat khau: ");
@@ -120,7 +120,7 @@ public class UserService implements IUserService {
 
             emailService.sendSimpleEmail(email, "Reset mat khau", text.toString());
 
-            mapper.map(userEntity, UserDTO.class);
+            mapper.map(user, UserDTO.class);
         } else {
             throw new EmailNotFoundException("Địa chỉ email không tôn tại trên hệ thống");
         }
@@ -128,9 +128,9 @@ public class UserService implements IUserService {
 
     @Override
     public void changePassword(String token, String newPassword) throws InvalidUserTokenException {
-        Optional<UserEntity> found = userRepository.findByToken(token);
+        Optional<User> found = userRepository.findByToken(token);
         if (found.isPresent()) {
-            UserEntity user = found.get();
+            User user = found.get();
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(newPassword));
             user.setToken(null);

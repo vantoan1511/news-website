@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Table(name = "review")
 @Getter
 @Setter
-public class ReviewEntity extends BaseEntity {
+public class Review extends Base {
 
 
 }

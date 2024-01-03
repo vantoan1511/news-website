@@ -1,6 +1,7 @@
 package com.vtoan1517.controller.web;
 
 import com.vtoan1517.dto.ArticleDTO;
+import com.vtoan1517.entity.Role;
 import com.vtoan1517.exception.ArticleNotFoundException;
 import com.vtoan1517.service.IArticleService;
 import com.vtoan1517.utils.SecurityUtils;
@@ -30,7 +31,7 @@ public class ArticleController {
         List<String> roles = SecurityUtils.getAuthorities();
         ArticleDTO articleDTO = new ArticleDTO();
 
-        if (previewMode && (roles.contains("admin") || roles.contains("author"))) {
+        if (previewMode && (roles.contains(Role.ROLE_ADMIN) || roles.contains(Role.ROLE_AUTHOR))) {
             articleDTO = articleService.findBySlug(slug);
         } else {
             articleDTO = articleService.findBySlugAndStatus(slug, "published");

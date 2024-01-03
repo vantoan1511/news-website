@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "category")
 @Getter
 @Setter
-public class CategoryEntity extends BaseEntity {
+public class Category extends Base {
 
     @Column(nullable = false, unique = true)
     private String code;
@@ -23,11 +23,11 @@ public class CategoryEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private CategoryEntity parent;
+    private Category parent;
 
     @OneToMany(mappedBy = "parent")
-    private Set<CategoryEntity> subCategories = new HashSet<>();
+    private Set<Category> subCategories = new HashSet<>();
 
     @OneToMany(mappedBy = "category")
-    private List<ArticleEntity> articles = new ArrayList<>();
+    private List<Article> articles = new ArrayList<>();
 }

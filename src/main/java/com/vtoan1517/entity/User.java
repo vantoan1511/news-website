@@ -1,11 +1,7 @@
 package com.vtoan1517.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,7 +11,7 @@ import java.util.List;
 @Table(name = "user")
 @Getter
 @Setter
-public class UserEntity extends BaseEntity {
+public class User extends Base {
 
     @Column(name = "email", nullable = false, unique = true, length = 45)
     private String email;
@@ -44,5 +40,5 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<RoleEntity> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 }

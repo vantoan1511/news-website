@@ -1,7 +1,7 @@
 package com.vtoan1517.service.impl;
 
 import com.vtoan1517.dto.CategoryDTO;
-import com.vtoan1517.entity.CategoryEntity;
+import com.vtoan1517.entity.Category;
 import com.vtoan1517.repository.CategoryRepository;
 import com.vtoan1517.service.ICategoryService;
 import com.vtoan1517.utils.CollectionMapper;
@@ -24,14 +24,14 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryDTO save(CategoryDTO categoryDTO) {
-        CategoryEntity parent = categoryRepository.findByCode(categoryDTO.getParentCode());
-        CategoryEntity categoryEntity = mapper.map(categoryDTO, CategoryEntity.class);
+        Category parent = categoryRepository.findByCode(categoryDTO.getParentCode());
+        Category categoryEntity = mapper.map(categoryDTO, Category.class);
         categoryEntity.setParent(parent);
         return mapper.map(categoryRepository.save(categoryEntity), CategoryDTO.class);
     }
 
     @Override
     public Map<String, String> findAll() {
-        return mapper.map(categoryRepository.findAll(), CategoryEntity::getCode, CategoryEntity::getName);
+        return mapper.map(categoryRepository.findAll(), Category::getCode, Category::getName);
     }
 }
