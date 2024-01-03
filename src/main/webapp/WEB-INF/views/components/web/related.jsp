@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@include file="../taglib.jsp" %>
+<%@ include file="../../../../common/taglib.jsp" %>
 
 <div class="row">
     <article class="col-md-12 article-list">
