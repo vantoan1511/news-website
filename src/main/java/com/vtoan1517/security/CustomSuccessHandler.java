@@ -1,5 +1,6 @@
 package com.vtoan1517.security;
 
+import com.vtoan1517.entity.Role;
 import com.vtoan1517.utils.SecurityUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,25 +42,19 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     private String determineTargetUrl(Authentication authentication) {
-        String url = "";
         List<String> roles = SecurityUtils.getAuthorities();
-        if (isAdmin(roles) || isAuthor(roles)) {
-            url = "/admin/home";
-        } else {
-            url = "/home";
-        }
-        return url;
+        return (isAdmin(roles) || isAuthor(roles)) ? "/admin/home" : "/home";
     }
 
     private boolean isAdmin(List<String> roles) {
-        return roles.contains("ADMIN") || roles.contains("admin");
+        return roles.contains(Role.ROLE_ADMIN);
     }
 
     private boolean isAuthor(List<String> roles) {
-        return roles.contains("author") || roles.contains("AUTHOR");
+        return roles.contains(Role.ROLE_AUTHOR);
     }
 
     private boolean isUser(List<String> roles) {
-        return roles.contains("USER") || roles.contains("user");
+        return roles.contains(Role.ROLE_USER);
     }
 }
