@@ -1,7 +1,7 @@
 package com.vtoan1517.controller.web;
 
 import com.vtoan1517.exception.CategoryNotFoundException;
-import com.vtoan1517.service.IArticleService;
+import com.vtoan1517.service.IArticleRetrievalService;
 import com.vtoan1517.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -17,12 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/categories/")
 public class CategoryController {
 
-    private final IArticleService articleService;
+    private final IArticleRetrievalService articleService;
 
     private final ICategoryService categoryService;
 
     @Autowired
-    public CategoryController(ICategoryService categoryService, IArticleService articleService) {
+    public CategoryController(ICategoryService categoryService, IArticleRetrievalService articleService) {
         this.categoryService = categoryService;
         this.articleService = articleService;
     }

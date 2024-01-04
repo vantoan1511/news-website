@@ -2,16 +2,18 @@ package com.vtoan1517.service;
 
 import com.vtoan1517.dto.ArticleDTO;
 import com.vtoan1517.exception.ArticleNotFoundException;
-import com.vtoan1517.exception.MethodNotAllowException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface IArticleService {
+public interface IArticleRetrievalService {
 
-    List<ArticleDTO> findAll();
+    Page<ArticleDTO> findAll(Pageable pageable);
 
-    List<ArticleDTO> findAll(Pageable pageable);
+    Page<ArticleDTO> findAllByKeyword(String keyword, Pageable pageable);
+
+    List<ArticleDTO> findAllByCategoryCode(String code, Pageable pageable);
 
     List<ArticleDTO> findAllByAuthor(String author, Pageable pageable);
 
@@ -30,31 +32,4 @@ public interface IArticleService {
     ArticleDTO findBySlug(String slug) throws ArticleNotFoundException;
 
     ArticleDTO findBySlugAndStatus(String slug, String status) throws ArticleNotFoundException;
-
-    ArticleDTO save(ArticleDTO articleDTO);
-
-    ArticleDTO publish(long id);
-
-    ArticleDTO approve(long id);
-
-    ArticleDTO refuse(long id);
-
-    ArticleDTO unpublish(long id) throws ArticleNotFoundException;
-
-    ArticleDTO restore(long id);
-
-    boolean isUniqueSlug(String slug);
-
-    ArticleDTO trash(long id) throws ArticleNotFoundException;
-
-    void trash(long[] ids);
-
-    void delete(long[] ids) throws ArticleNotFoundException, MethodNotAllowException;
-
-    void delete(long id) throws ArticleNotFoundException, MethodNotAllowException;
-
-    long getTotalItems(String author);
-
-    long getTotalItemsExceptTrash();
-
 }

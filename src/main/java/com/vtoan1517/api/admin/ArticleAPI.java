@@ -4,7 +4,8 @@ import com.vtoan1517.dto.ArticleDTO;
 import com.vtoan1517.dto.SuccessResponse;
 import com.vtoan1517.exception.ArticleNotFoundException;
 import com.vtoan1517.exception.MethodNotAllowException;
-import com.vtoan1517.service.IArticleService;
+import com.vtoan1517.service.IArticleModificationService;
+import com.vtoan1517.service.IArticleRetrievalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -18,47 +19,51 @@ import java.util.Date;
 @RequestMapping("/api/v1/articles")
 public class ArticleAPI {
 
-    private final IArticleService articleService;
+    private final IArticleRetrievalService retrievalService;
+
+    private final IArticleModificationService modificationService;
 
     private final MessageSource messageSource;
 
     @Autowired
-    public ArticleAPI(IArticleService articleService, MessageSource messageSource) {
-        this.articleService = articleService;
+    public ArticleAPI(IArticleRetrievalService retrievalService, MessageSource messageSource, IArticleModificationService modificationService) {
+        this.retrievalService = retrievalService;
         this.messageSource = messageSource;
+        this.modificationService = modificationService;
     }
 
     @GetMapping("/{slug}")
     public ResponseEntity<ArticleDTO> get(@PathVariable("slug") String slug) throws ArticleNotFoundException {
-        return new ResponseEntity<>(articleService.findBySlug(slug), HttpStatus.OK);
+        return new ResponseEntity<>(retrievalService.findBySlug(slug), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ArticleDTO> createArticle(@Valid @RequestBody ArticleDTO articleDTO) {
-        return new ResponseEntity<>(articleService.save(articleDTO), HttpStatus.CREATED);
+    public ResponseEntity<ArticleDTO> createArticle(@Valid @RequestBody ArticleDTO articleDTO) throws MethodNotAllowException {
+        return new ResponseEntity<>(modificationService.save(articleDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/{action}")
-    public ResponseEntity<ArticleDTO> handleAction(
-            @PathVariable("id") long id,
-            @PathVariable("action") String action
-    ) throws ArticleNotFoundException {
-        ArticleDTO articleDTO = switch (action) {
-            case "publish" -> articleService.publish(id);
-            case "approve" -> articleService.approve(id);
-            case "refuse" -> articleService.refuse(id);
-            case "unpublish" -> articleService.unpublish(id);
-            case "restore" -> articleService.restore(id);
-            case "trash" -> articleService.trash(id);
+    public ResponseEntity<Object> handleAction(@PathVariable("id") long id,
+                                               @PathVariable("action") String action) throws ArticleNotFoundException {
+        switch (action) {
+            case "publish" -> modificationService.publish(id);
+            case "approve" -> modificationService.approve(id);
+            case "refuse" -> modificationService.refuse(id);
+            case "unpublish" -> modificationService.unpublish(id);
+            case "restore" -> modificationService.restore(id);
+            case "trash" -> modificationService.trash(id);
             default -> throw new IllegalArgumentException("Invalid action: " + action);
-        };
+        }
 
-        return new ResponseEntity<>(articleDTO, HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.OK.value())
+                .build(), HttpStatus.OK);
     }
 
     @PutMapping("/trash")
     public ResponseEntity<Object> trash(@RequestBody long[] ids) {
-        articleService.trash(ids);
+        modificationService.trash(ids);
         SuccessResponse successResponse = SuccessResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
@@ -68,13 +73,13 @@ public class ArticleAPI {
     }
 
     @PutMapping
-    public ResponseEntity<ArticleDTO> updateArticle(@Valid @RequestBody ArticleDTO articleDTO) {
-        return new ResponseEntity<>(articleService.save(articleDTO), HttpStatus.OK);
+    public ResponseEntity<ArticleDTO> updateArticle(@Valid @RequestBody ArticleDTO articleDTO) throws MethodNotAllowException {
+        return new ResponseEntity<>(modificationService.save(articleDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteSingle(@PathVariable("id") long id) throws ArticleNotFoundException, MethodNotAllowException {
-        articleService.delete(id);
+        modificationService.delete(id);
         SuccessResponse responseBody = SuccessResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.NO_CONTENT.value())
@@ -85,7 +90,7 @@ public class ArticleAPI {
 
     @DeleteMapping
     public ResponseEntity<Object> delete(@RequestBody long[] ids) throws ArticleNotFoundException, MethodNotAllowException {
-        articleService.delete(ids);
+        modificationService.delete(ids);
         SuccessResponse responseBody = SuccessResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.NO_CONTENT.value())

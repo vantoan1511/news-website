@@ -3,7 +3,7 @@ package com.vtoan1517.controller.web;
 import com.vtoan1517.dto.ArticleDTO;
 import com.vtoan1517.entity.Role;
 import com.vtoan1517.exception.ArticleNotFoundException;
-import com.vtoan1517.service.IArticleService;
+import com.vtoan1517.service.IArticleRetrievalService;
 import com.vtoan1517.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +17,11 @@ import java.util.List;
 @Controller(value = "WebArticleController")
 public class ArticleController {
 
-    private final IArticleService articleService;
+    private final IArticleRetrievalService articleService;
 
 
     @Autowired
-    public ArticleController(IArticleService articleService) {
+    public ArticleController(IArticleRetrievalService articleService) {
         this.articleService = articleService;
     }
 

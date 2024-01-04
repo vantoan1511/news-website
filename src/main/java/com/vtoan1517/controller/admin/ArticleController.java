@@ -4,11 +4,12 @@ import com.vtoan1517.dto.ArticleDTO;
 import com.vtoan1517.dto.Model;
 import com.vtoan1517.exception.ArticleNotFoundException;
 import com.vtoan1517.service.IAccessService;
-import com.vtoan1517.service.IArticleService;
+import com.vtoan1517.service.IArticleRetrievalService;
 import com.vtoan1517.service.ICategoryService;
 import com.vtoan1517.service.IStatusService;
 import com.vtoan1517.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller(value = "AdminArticleController")
@@ -32,11 +32,11 @@ public class ArticleController {
 
     private final IStatusService statusService;
 
-    private final IArticleService articleService;
+    private final IArticleRetrievalService articleService;
 
     @Autowired
     public ArticleController(ICategoryService categoryService, IAccessService accessService,
-                             IArticleService articleService, IStatusService statusService) {
+                             IArticleRetrievalService articleService, IStatusService statusService) {
         this.categoryService = categoryService;
         this.accessService = accessService;
         this.articleService = articleService;
@@ -56,38 +56,42 @@ public class ArticleController {
         Sort.Direction direction = sortOrder.equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = new PageRequest(page - 1, limit, new Sort(direction, sortBy));
 
-        List<ArticleDTO> items;
+        Page<ArticleDTO> items;
+        items = articleService.findAll(pageable);
+
         if (roles.contains("admin")) {
             if (tab.equalsIgnoreCase("all")) {
                 items = articleService.findAll(pageable);
             } else if (tab.equalsIgnoreCase("featured")) {
-                items = articleService.findAllByFeatured(true, pageable);
+                //items = articleService.findAllByFeatured(true, pageable);
             } else {
-                items = articleService.findAllByStatusCode(tab, pageable);
+                //items = articleService.findAllByStatusCode(tab, pageable);
             }
         } else {
             if (tab.equalsIgnoreCase("all")) {
-                items = articleService.findAllByAuthor(author, pageable);
+                //items = articleService.findAllByAuthor(author, pageable);
             } else if (tab.equalsIgnoreCase("featured")) {
-                items = articleService.findAllByFeaturedAndAuthor(true, author, pageable);
+                //items = articleService.findAllByFeaturedAndAuthor(true, author, pageable);
             } else {
-                items = articleService.findAllByStatusCodeAndAuthor(tab, author, pageable);
+                //items = articleService.findAllByStatusCodeAndAuthor(tab, author, pageable);
             }
         }
-
+/*
         long totalItems = articleService.getTotalItems(author);
         int totalPages = (int) Math.ceil((double) totalItems / limit);
+*/
 
-        String viewPath = "admin/article/list";
-        ModelAndView mav = new ModelAndView(viewPath);
+        String viewName = "admin/article/list";
+        ModelAndView mav = new ModelAndView(viewName);
         Model<Object> model = Model.builder()
                 .page(page)
                 .limit(limit)
                 .sortBy(sortBy)
                 .sortOrder(sortOrder)
-                .totalPages(totalPages)
-                .totalItems(totalItems)
-                .data(items).build();
+                .totalPages(items.getTotalPages())
+                .totalItems(items.getTotalElements())
+                .data(items.getContent())
+                .build();
         mav.addObject("model", model);
         return mav;
     }
@@ -102,7 +106,7 @@ public class ArticleController {
         }
 
         String viewName = "admin/article/details";
-        
+
         ModelAndView mav = new ModelAndView(viewName);
         mav.addObject("model", articleDTO);
         mav.addObject("categories", categoryService.findAll());

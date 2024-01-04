@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ApplicationExceptionHandler {
     @ExceptionHandler(ArticleNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -47,14 +48,15 @@ public class ApplicationExceptionHandler {
     }
 
     @ExceptionHandler(MethodNotAllowException.class)
-    public ResponseEntity<Object> handleMethodNotAllowException(MethodNotAllowException ex) {
-        ErrorResponse errorDetails = ErrorResponse.builder()
-                .timestamp(new Date())
-                .status(HttpStatus.METHOD_NOT_ALLOWED.value())
-                .error("Lỗi thao tác không hợp lệ hoặc không được phép")
-                .message(ex.getMessage())
-                .build();
-        return new ResponseEntity<>(errorDetails, HttpStatus.METHOD_NOT_ALLOWED);
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public Object handleMethodNotAllowException(MethodNotAllowException ex, HttpServletRequest request) {
+        if (isAPIRequest(request)) {
+            return new ResponseEntity<>(errorDetails(HttpStatus.METHOD_NOT_ALLOWED.value(),
+                    ex.getMessage(), ex.getMessage()), HttpStatus.METHOD_NOT_ALLOWED);
+        } else {
+            String viewName = isAdminRequest(request) ? "admin/404" : "web/404";
+            return new ModelAndView(viewName);
+        }
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)

@@ -1,7 +1,7 @@
 package com.vtoan1517.controller.web;
 
 import com.vtoan1517.dto.ArticleDTO;
-import com.vtoan1517.service.IArticleService;
+import com.vtoan1517.service.IArticleRetrievalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,10 +14,10 @@ import java.util.List;
 @Controller(value = "WebHomeController")
 public class HomeController {
 
-    private final IArticleService articleService;
+    private final IArticleRetrievalService articleService;
 
     @Autowired
-    public HomeController(IArticleService articleService) {
+    public HomeController(IArticleRetrievalService articleService) {
         this.articleService = articleService;
     }
 
