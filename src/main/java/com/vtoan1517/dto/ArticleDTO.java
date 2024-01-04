@@ -21,6 +21,7 @@ public class ArticleDTO extends BaseDTO {
     private long traffic = 0;
     @NotBlank(message = "Truy cập bài viết không được rỗng")
     private String accessCode;
+    private String accessName;
     @NotBlank(message = "Chuyên mục bài viết không được rỗng")
     private String categoryCode;
     private String categoryName;
