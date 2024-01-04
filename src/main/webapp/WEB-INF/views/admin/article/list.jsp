@@ -83,11 +83,11 @@
                             </div>
                         </th>
                         <th>Id</th>
-                        <th>Tiêu đề</th>
-                        <th>Trạng thái</th>
                         <th class="text-center">Nổi bật</th>
-                        <th>Thể loại</th>
-                        <th>Lần sửa cuối</th>
+                        <th>Trạng thái</th>
+                        <th>Tiêu đề</th>
+                        <th>Truy cập</th>
+                        <th>Đã tạo</th>
                         <th>Tác giả</th>
                         <th></th>
                     </tr>
@@ -106,14 +106,7 @@
                                 </div>
                             </td>
                             <td>${article.id}</td>
-                            <td>
-                                <a class="text-truncate"
-                                   href="/admin/articles/${article.id}">
-                                        ${article.title} <i class="ri-edit-box-line"></i>
-                                </a>
-                            </td>
-                            <td class="status-cell text-center">${article.statusName}</td>
-                            <td class="text-center">
+                            <td class="text-center" style="font-size: 1.5rem">
                                 <c:choose>
                                     <c:when test="${article.featured}">
                                         <i class="ri-star-fill text-yellow"></i>
@@ -123,9 +116,20 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td>${article.categoryName}</td>
+                            <td class="status-cell text-center">${article.statusName}</td>
                             <td>
-                                <fmt:formatDate value="${article.modifiedDate}" pattern="HH:mm dd/MM/yyyy"/>
+                                <a class="text-truncate"
+                                   href="/admin/articles/${article.id}">
+                                        ${article.title} <i class="ri-edit-box-line"></i>
+                                </a>
+                                <p style="font-size: 85%">
+                                    Alias: ${article.slug}<br>
+                                    Category: <a href="#">${article.categoryName}</a>
+                                </p>
+                            </td>
+                            <td>${article.accessName}</td>
+                            <td>
+                                <fmt:formatDate value="${article.createdDate}" pattern="HH:mm dd/MM/yyyy"/>
                             </td>
                             <td>
                                 <c:choose>
