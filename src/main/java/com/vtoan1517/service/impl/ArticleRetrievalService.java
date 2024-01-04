@@ -1,27 +1,20 @@
 package com.vtoan1517.service.impl;
 
 import com.vtoan1517.dto.ArticleDTO;
-import com.vtoan1517.entity.Access;
 import com.vtoan1517.entity.Article;
-import com.vtoan1517.entity.Category;
-import com.vtoan1517.entity.Status;
 import com.vtoan1517.exception.ArticleNotFoundException;
-import com.vtoan1517.exception.MethodNotAllowException;
 import com.vtoan1517.repository.AccessRepository;
 import com.vtoan1517.repository.ArticleRepository;
 import com.vtoan1517.repository.CategoryRepository;
 import com.vtoan1517.repository.StatusRepository;
 import com.vtoan1517.service.IArticleRetrievalService;
 import com.vtoan1517.utils.CollectionMapper;
-import com.vtoan1517.utils.SlugGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
