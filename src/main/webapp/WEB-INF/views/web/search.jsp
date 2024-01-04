@@ -78,10 +78,10 @@
                     </div>
                 </div>
                 <div class="search-result">
-                    Search results for keyword "hello" found in 5,200 posts.
+                    Tìm thấy ${model.totalItems} kết quả cho từ khóa "${param.q}"
                 </div>
                 <div class="row">
-                    <c:forEach items="${articles}" var="article">
+                    <c:forEach items="${model.data}" var="article">
                         <article class="col-md-12 article-list">
                             <div class="inner">
                                 <figure>
