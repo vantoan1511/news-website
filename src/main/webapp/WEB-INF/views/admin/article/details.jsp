@@ -106,7 +106,7 @@
                                     <div class="form-group">
                                         <label for="categoryCode">Chuyên mục</label>
                                         <form:select path="categoryCode" id="categoryCode"
-                                                     cssClass="form-control form-control-border custom-select">
+                                                     cssClass="wide">
                                             <form:option value="" label="--Chọn chuyên mục--"/>
                                             <form:options items="${categories}"/>
                                         </form:select>
@@ -120,7 +120,7 @@
                                     <div class="form-group">
                                         <label>Truy cập</label>
                                         <form:select path="accessCode" id="accessCode"
-                                                     cssClass="form-control form-control-border custom-select">
+                                                     cssClass="wide">
                                             <form:options items="${access}"/>
                                         </form:select>
                                     </div>

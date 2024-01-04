@@ -1,3 +1,4 @@
+
 const handleSelectAllCheckboxClick = (self, selector) => {
     $(selector).prop('checked', self.checked);
 }

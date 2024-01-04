@@ -32,8 +32,9 @@
     <link rel="stylesheet" href="/static/admin/plugins/select2/css/select2.min.css">
     <%--Custom style--%>
     <link rel="stylesheet" href="/static/custom/css/styles.css">
+    <link rel="stylesheet" href="/static/niceselect/css/nice-select2.css">
     <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/static/admin/plugins/jquery/jquery.min.js"></script>
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -55,7 +56,7 @@
 
 <!-- pagination -->
 <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+        src="<c:url value="/static/twbspagination/jquery.twbsPagination.min.js"/>"></script>
 
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -65,11 +66,10 @@
 <!-- AdminLTE App -->
 <script src="<c:url value="/static/admin/dist/js/adminlte.js"/>"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
-<%--Select2--%>
-<script src="/static/admin/plugins/select2/js/select2.min.js"></script>
 <!-- Custom -->
 <script src="<c:url value="/static/custom/js/main.js"/>"></script>
 <!-- Utils -->
 <script src="<c:url value="/static/custom/js/utils.js"/>"></script>
+<script src="<c:url value="/static/niceselect/js/nice-select2.js"/>"></script>
 </body>
 </html>
