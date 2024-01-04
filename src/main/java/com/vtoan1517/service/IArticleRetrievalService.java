@@ -15,15 +15,15 @@ public interface IArticleRetrievalService {
 
     List<ArticleDTO> findAllByCategoryCode(String code, Pageable pageable);
 
-    List<ArticleDTO> findAllByAuthor(String author, Pageable pageable);
+    Page<ArticleDTO> findAllByAuthorOrPublicAccess(String authorName, Pageable pageable);
 
-    List<ArticleDTO> findAllByFeaturedAndAuthor(boolean featured, String author, Pageable pageable);
+    Page<ArticleDTO> findAllByFeaturedAndAuthor(boolean featured, String authorName, Pageable pageable);
 
-    List<ArticleDTO> findAllByStatusCode(String statusCode, Pageable pageable);
+    Page<ArticleDTO> findAllByStatusCode(String statusCode, Pageable pageable);
 
-    List<ArticleDTO> findAllByStatusCodeAndAuthor(String statusCode, String author, Pageable pageable);
+    Page<ArticleDTO> findAllByStatusCodeAndAuthor(String statusCode, String authorName, Pageable pageable);
 
-    List<ArticleDTO> findAllByFeatured(boolean featured, Pageable pageable);
+    Page<ArticleDTO> findAllByFeatured(boolean featured, Pageable pageable);
 
     List<ArticleDTO> findAllByStatusCodeAndFeatured(String statusCode, boolean featured, Pageable pageable);
 

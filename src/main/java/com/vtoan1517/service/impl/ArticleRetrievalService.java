@@ -81,8 +81,7 @@ public class ArticleRetrievalService implements IArticleRetrievalService {
 
     @Override
     public Page<ArticleDTO> findAll(Pageable pageable) {
-        Page<Article> articlePage = articleRepository.findAll(pageable);
-        return articlePage.map(item -> mapper.map(item, ArticleDTO.class));
+        return articleRepository.findAll(pageable).map(item -> mapper.map(item, ArticleDTO.class));
     }
 
     @Override
@@ -91,28 +90,31 @@ public class ArticleRetrievalService implements IArticleRetrievalService {
     }
 
     @Override
-    public List<ArticleDTO> findAllByAuthor(String author, Pageable pageable) {
-        return mapper.map(articleRepository.findAllByStatusCodeNotAndCreatedBy("trash", author, pageable), ArticleDTO.class);
+    public Page<ArticleDTO> findAllByAuthorOrPublicAccess(String authorName, Pageable pageable) {
+        return articleRepository.findAllByCreatedByOrAccessCode(authorName, "public", pageable)
+                .map(item -> mapper.map(item, ArticleDTO.class));
     }
 
     @Override
-    public List<ArticleDTO> findAllByFeaturedAndAuthor(boolean featured, String author, Pageable pageable) {
-        return mapper.map(articleRepository.findAllByFeaturedAndCreatedBy(featured, author, pageable), ArticleDTO.class);
+    public Page<ArticleDTO> findAllByFeaturedAndAuthor(boolean featured, String authorName, Pageable pageable) {
+        return articleRepository.findAllByFeaturedAndCreatedByOrFeaturedAndAccessCode(featured, authorName, featured, "public", pageable)
+                .map(item -> mapper.map(item, ArticleDTO.class));
     }
 
     @Override
-    public List<ArticleDTO> findAllByStatusCode(String statusCode, Pageable pageable) {
-        return mapper.map(articleRepository.findAllByStatusCode(statusCode, pageable), ArticleDTO.class);
+    public Page<ArticleDTO> findAllByStatusCode(String statusCode, Pageable pageable) {
+        return articleRepository.findAllByStatusCode(statusCode, pageable).map(item -> mapper.map(item, ArticleDTO.class));
     }
 
     @Override
-    public List<ArticleDTO> findAllByStatusCodeAndAuthor(String statusCode, String author, Pageable pageable) {
-        return mapper.map(articleRepository.findAllByStatusCodeAndCreatedBy(statusCode, author, pageable), ArticleDTO.class);
+    public Page<ArticleDTO> findAllByStatusCodeAndAuthor(String statusCode, String authorName, Pageable pageable) {
+        return articleRepository.findAllByStatusCodeAndCreatedByOrStatusCodeAndAccessCode(statusCode, authorName, statusCode, "public", pageable)
+                .map(item -> mapper.map(item, ArticleDTO.class));
     }
 
     @Override
-    public List<ArticleDTO> findAllByFeatured(boolean featured, Pageable pageable) {
-        return mapper.map(articleRepository.findAllByFeatured(featured, pageable), ArticleDTO.class);
+    public Page<ArticleDTO> findAllByFeatured(boolean featured, Pageable pageable) {
+        return articleRepository.findAllByFeatured(featured, pageable).map(item -> mapper.map(item, ArticleDTO.class));
     }
 
     @Override

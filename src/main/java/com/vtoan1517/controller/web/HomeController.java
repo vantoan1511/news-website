@@ -29,8 +29,8 @@ public class HomeController {
         PageRequest popularReq = new PageRequest(0, 10, new Sort(Sort.Direction.DESC, "traffic"));
 
         List<ArticleDTO> featured = articleService.findAllByStatusCodeAndFeatured("published", true, featuredReq);
-        List<ArticleDTO> latest = articleService.findAllByStatusCode("published", latestReq);
-        List<ArticleDTO> popular = articleService.findAllByStatusCode("published", popularReq);
+        List<ArticleDTO> latest = articleService.findAllByStatusCode("published", latestReq).getContent();
+        List<ArticleDTO> popular = articleService.findAllByStatusCode("published", popularReq).getContent();
 
         ModelAndView mav = new ModelAndView("web/home");
         mav.addObject("featured", featured);

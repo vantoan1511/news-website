@@ -2,6 +2,7 @@ package com.vtoan1517.controller.admin;
 
 import com.vtoan1517.dto.ArticleDTO;
 import com.vtoan1517.dto.Model;
+import com.vtoan1517.entity.Role;
 import com.vtoan1517.exception.ArticleNotFoundException;
 import com.vtoan1517.service.IAccessService;
 import com.vtoan1517.service.IArticleRetrievalService;
@@ -46,40 +47,35 @@ public class ArticleController {
     @GetMapping
     public ModelAndView listArticle(@RequestParam(name = "tab", required = false, defaultValue = "all") String tab,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "limit", defaultValue = "5") int limit,
+                                    @RequestParam(name = "limit", defaultValue = "10") int limit,
                                     @RequestParam(name = "sortBy", defaultValue = "modifiedDate") String sortBy,
                                     @RequestParam(name = "sortOrder", defaultValue = "desc") String sortOrder) {
 
-        String author = SecurityUtils.getPrincipal().getUsername();
+        String authorName = SecurityUtils.getPrincipal().getUsername();
         List<String> roles = SecurityUtils.getAuthorities();
 
         Sort.Direction direction = sortOrder.equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = new PageRequest(page - 1, limit, new Sort(direction, sortBy));
 
         Page<ArticleDTO> items;
-        items = articleService.findAll(pageable);
 
-        if (roles.contains("admin")) {
+        if (roles.contains(Role.ROLE_ADMIN)) {
             if (tab.equalsIgnoreCase("all")) {
                 items = articleService.findAll(pageable);
             } else if (tab.equalsIgnoreCase("featured")) {
-                //items = articleService.findAllByFeatured(true, pageable);
+                items = articleService.findAllByFeatured(true, pageable);
             } else {
-                //items = articleService.findAllByStatusCode(tab, pageable);
+                items = articleService.findAllByStatusCode(tab, pageable);
             }
         } else {
             if (tab.equalsIgnoreCase("all")) {
-                //items = articleService.findAllByAuthor(author, pageable);
+                items = articleService.findAllByAuthorOrPublicAccess(authorName, pageable);
             } else if (tab.equalsIgnoreCase("featured")) {
-                //items = articleService.findAllByFeaturedAndAuthor(true, author, pageable);
+                items = articleService.findAllByFeaturedAndAuthor(true, authorName, pageable);
             } else {
-                //items = articleService.findAllByStatusCodeAndAuthor(tab, author, pageable);
+                items = articleService.findAllByStatusCodeAndAuthor(tab, authorName, pageable);
             }
         }
-/*
-        long totalItems = articleService.getTotalItems(author);
-        int totalPages = (int) Math.ceil((double) totalItems / limit);
-*/
 
         String viewName = "admin/article/list";
         ModelAndView mav = new ModelAndView(viewName);
@@ -99,11 +95,8 @@ public class ArticleController {
     @GetMapping({"/new", "/{id}"})
     public ModelAndView createArticle(@PathVariable(name = "id", required = false) Long id) throws ArticleNotFoundException {
         List<String> roles = SecurityUtils.getAuthorities();
-        ArticleDTO articleDTO = new ArticleDTO();
-
-        if (id != null) {
-            articleDTO = articleService.findById(id);
-        }
+        
+        ArticleDTO articleDTO = articleService.findById(id);
 
         String viewName = "admin/article/details";
 
