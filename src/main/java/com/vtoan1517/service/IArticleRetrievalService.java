@@ -13,7 +13,7 @@ public interface IArticleRetrievalService {
 
     Page<ArticleDTO> findAllByKeyword(String keyword, Pageable pageable);
 
-    List<ArticleDTO> findAllByCategoryCode(String code, Pageable pageable);
+    List<ArticleDTO> findAllByCategoryCode(String categoryCode, Pageable pageable);
 
     Page<ArticleDTO> findAllByAuthorOrPublicAccess(String authorName, Pageable pageable);
 
