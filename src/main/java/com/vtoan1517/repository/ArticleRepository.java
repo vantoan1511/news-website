@@ -15,11 +15,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAll(Pageable pageable);
 
-    Page<Article> findAllByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+    Page<Article> findAllByStatusCodeAndTitleContainingIgnoreCase(String statusCode, String keyword, Pageable pageable);
 
-    Page<Article> findAllByDescriptionContainingIgnoreCase(String keyword, Pageable pageable);
+    Page<Article> findAllByStatusCodeAndDescriptionContainingIgnoreCase(String statusCode, String keyword, Pageable pageable);
 
-    Page<Article> findAllByContentIsContainingIgnoreCase(String keyword, Pageable pageable);
+    Page<Article> findAllByStatusCodeAndContentIsContainingIgnoreCase(String statusCode, String keyword, Pageable pageable);
 
     List<Article> findAllByStatusCodeAndCategoryCode(String statusCode, String categoryCode, Pageable pageable);
 

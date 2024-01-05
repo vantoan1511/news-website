@@ -1,7 +1,9 @@
 package com.vtoan1517.service.impl;
 
 import com.vtoan1517.dto.ArticleDTO;
+import com.vtoan1517.entity.Access;
 import com.vtoan1517.entity.Article;
+import com.vtoan1517.entity.Status;
 import com.vtoan1517.exception.ArticleNotFoundException;
 import com.vtoan1517.repository.AccessRepository;
 import com.vtoan1517.repository.ArticleRepository;
@@ -40,7 +42,7 @@ public class ArticleRetrievalService implements IArticleRetrievalService {
 
     @Override
     public Page<ArticleDTO> findAllByKeyword(String keyword, Pageable pageable) {
-        Page<ArticleDTO> articles = articleRepository.findAllByTitleContainingIgnoreCase(keyword, pageable)
+        Page<ArticleDTO> articles = articleRepository.findAllByStatusCodeAndTitleContainingIgnoreCase(Status.STATUS_PUBLISHED, keyword, pageable)
                 .map(item -> mapper.map(item, ArticleDTO.class));
         if (articles.getTotalElements() != 0) {
             for (ArticleDTO articleDTO : articles) {
@@ -51,7 +53,7 @@ public class ArticleRetrievalService implements IArticleRetrievalService {
             return articles;
         }
 
-        articles = articleRepository.findAllByDescriptionContainingIgnoreCase(keyword, pageable)
+        articles = articleRepository.findAllByStatusCodeAndDescriptionContainingIgnoreCase(Status.STATUS_PUBLISHED, keyword, pageable)
                 .map(item -> mapper.map(item, ArticleDTO.class));
         if (articles.getTotalElements() != 0) {
             for (ArticleDTO articleDTO : articles) {
@@ -62,7 +64,7 @@ public class ArticleRetrievalService implements IArticleRetrievalService {
             return articles;
         }
 
-        articles = articleRepository.findAllByContentIsContainingIgnoreCase(keyword, pageable)
+        articles = articleRepository.findAllByStatusCodeAndContentIsContainingIgnoreCase(Status.STATUS_PUBLISHED, keyword, pageable)
                 .map(item -> mapper.map(item, ArticleDTO.class));
         for (ArticleDTO articleDTO : articles) {
             String highlightStr = "..." + "<span style='color:red!important'>" + keyword + "...";
@@ -79,19 +81,19 @@ public class ArticleRetrievalService implements IArticleRetrievalService {
 
     @Override
     public List<ArticleDTO> findAllByCategoryCode(String code, Pageable pageable) {
-        return mapper.map(articleRepository.findAllByStatusCodeAndCategoryCode("published", code, pageable), ArticleDTO.class);
+        return mapper.map(articleRepository.findAllByStatusCodeAndCategoryCode(Status.STATUS_PUBLISHED, code, pageable), ArticleDTO.class);
     }
 
     @Override
     public Page<ArticleDTO> findAllByAuthorOrPublicAccess(String authorName, Pageable pageable) {
         return articleRepository.findAllByCreatedByAndStatusCodeNotOrAccessCodeAndStatusCodeNot(
-                        authorName, "trash", "public", "trash", pageable)
+                        authorName, Status.STATUS_TRASH, Access.ACCESS_PUBLIC, Status.STATUS_TRASH, pageable)
                 .map(item -> mapper.map(item, ArticleDTO.class));
     }
 
     @Override
     public Page<ArticleDTO> findAllByFeaturedAndAuthor(boolean featured, String authorName, Pageable pageable) {
-        return articleRepository.findAllByFeaturedAndCreatedByOrFeaturedAndAccessCode(featured, authorName, featured, "public", pageable)
+        return articleRepository.findAllByFeaturedAndCreatedByOrFeaturedAndAccessCode(featured, authorName, featured, Access.ACCESS_PUBLIC, pageable)
                 .map(item -> mapper.map(item, ArticleDTO.class));
     }
 
@@ -102,7 +104,7 @@ public class ArticleRetrievalService implements IArticleRetrievalService {
 
     @Override
     public Page<ArticleDTO> findAllByStatusCodeAndAuthor(String statusCode, String authorName, Pageable pageable) {
-        return articleRepository.findAllByStatusCodeAndCreatedByOrStatusCodeAndAccessCode(statusCode, authorName, statusCode, "public", pageable)
+        return articleRepository.findAllByStatusCodeAndCreatedByOrStatusCodeAndAccessCode(statusCode, authorName, statusCode, Access.ACCESS_PUBLIC, pageable)
                 .map(item -> mapper.map(item, ArticleDTO.class));
     }
 
