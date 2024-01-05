@@ -1,6 +1,8 @@
 package com.vtoan1517.utils;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,6 +11,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Component
 public class CollectionMapper extends ModelMapper {
 
     public CollectionMapper() {
