@@ -1,3 +1,15 @@
+$(document).ready(() => {
+    const currentPath = location.pathname + location.search
+    console.log(currentPath)
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPath) {
+            link.classList.add('active');
+        }
+    });
+});
+
 function handlePostRequest(id, url, data, successCallback, errorCallback) {
     if (id !== 0) {
         handleRestRequest({

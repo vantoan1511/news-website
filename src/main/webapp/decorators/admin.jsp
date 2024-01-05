@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title><dec:title default="Trang chủ"/></title>
-    <link rel="shortcut icon" href="/static/web/img/core-img/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
@@ -20,7 +19,7 @@
     <link rel="stylesheet"
           href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <%--Remix Icon--%>
-    <link rel="stylesheet" href="/static/remixicon/remixicon.css">
+    <link rel="stylesheet" href="<c:url value="/static/remixicon/remixicon.css"/>">
     <!-- iCheck -->
     <link rel="stylesheet"
           href="<c:url value="/static/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>">
@@ -34,7 +33,7 @@
     <link rel="stylesheet" href="/static/custom/css/styles.css">
     <link rel="stylesheet" href="/static/niceselect/css/nice-select2.css">
     <!-- Jquery -->
-    <script src="/static/admin/plugins/jquery/jquery.min.js"></script>
+    <script src="<c:url value="/static/admin/plugins/jquery/jquery.min.js"/>"></script>
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -53,7 +52,6 @@
     <%@ include file="/common/admin/footer.jsp" %>
 
 </div>
-
 <!-- pagination -->
 <script
         src="<c:url value="/static/twbspagination/jquery.twbsPagination.min.js"/>"></script>
