@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -28,5 +29,6 @@ public class ArticleDTO extends BaseDTO {
     @NotBlank(message = "Trạng thái bài viết không được rỗng")
     private String statusCode = "draft";
     private String statusName = "Bản nháp";
+    private Date publishedDate;
 
 }
