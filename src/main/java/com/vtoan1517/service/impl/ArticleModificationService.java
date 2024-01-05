@@ -114,7 +114,7 @@ public class ArticleModificationService implements IArticleModificationService {
         if (article.getStatus().getCode().equalsIgnoreCase(Status.STATUS_PENDING)) {
             Status status = statusRepository.findByCode(Status.STATUS_PUBLISHED);
             article.setStatus(status);
-            article.setPublishedDate(new Date());
+            if (article.getPublishedDate() == null) article.setPublishedDate(new Date());
             article = articleRepository.save(article);
         }
     }
