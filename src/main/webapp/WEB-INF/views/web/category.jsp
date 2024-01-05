@@ -46,7 +46,9 @@
                                         <div class="category">
                                             <a href="/categories/${article.categoryCode}">${article.categoryName}</a>
                                         </div>
-                                        <div class="time"><fmt:formatDate value="${article.modifiedDate}"/></div>
+                                        <div class="time"><fmt:formatDate value="${article.publishedDate}"
+                                                                          pattern="HH:mm dd/MM/yyyy"/>
+                                        </div>
                                     </div>
                                     <h1><a href="/${article.slug}">${article.title}</a>
                                     </h1>
