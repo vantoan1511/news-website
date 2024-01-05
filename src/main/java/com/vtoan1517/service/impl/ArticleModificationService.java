@@ -65,11 +65,6 @@ public class ArticleModificationService implements IArticleModificationService {
 
         if (articleDTO.getId() != 0) {
             oldArticle = articleRepository.findById(articleDTO.getId());
-
-            if (!oldArticle.getCreatedBy().equals(SecurityUtils.getPrincipal().getUsername())) {
-                throw new MethodNotAllowException("Bạn không có quyền thao tác với bài viết này");
-            }
-
             article.setCreatedBy(oldArticle.getCreatedBy());
             article.setCreatedDate(oldArticle.getCreatedDate());
         }
@@ -134,7 +129,7 @@ public class ArticleModificationService implements IArticleModificationService {
 
     @Override
     @Transactional
-    public void unpublish(long id) throws ArticleNotFoundException {
+    public void reject(long id) throws ArticleNotFoundException {
         article = articleRepository.findById(id);
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc không còn nữa");
 

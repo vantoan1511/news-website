@@ -14,7 +14,7 @@ public interface IArticleModificationService {
 
     void refuse(long id) throws ArticleNotFoundException;
 
-    void unpublish(long id) throws ArticleNotFoundException;
+    void reject(long id) throws ArticleNotFoundException;
 
     void restore(long id) throws ArticleNotFoundException;
 

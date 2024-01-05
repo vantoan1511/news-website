@@ -49,7 +49,7 @@ public class ArticleAPI {
             case "publish" -> modificationService.publish(id);
             case "approve" -> modificationService.approve(id);
             case "refuse" -> modificationService.refuse(id);
-            case "unpublish" -> modificationService.unpublish(id);
+            case "unpublish" -> modificationService.reject(id);
             case "restore" -> modificationService.restore(id);
             case "trash" -> modificationService.trash(id);
             default -> throw new IllegalArgumentException("Invalid action: " + action);
