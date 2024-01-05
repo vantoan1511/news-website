@@ -41,15 +41,15 @@
 <div class="wrapper">
 
     <!-- Navbar -->
-    <%@ include file="/common/admin/navbar.jsp" %>
+    <%@ include file="/WEB-INF/views/components/admin/navbar.jsp" %>
 
     <!-- Main Sidebar Container -->
-    <%@ include file="/common/admin/sidebar.jsp" %>
+    <%@ include file="/WEB-INF/views/components/admin/sidebar.jsp" %>
 
     <dec:body/>
 
     <!-- Footer -->
-    <%@ include file="/common/admin/footer.jsp" %>
+    <%@ include file="/WEB-INF/views/components/admin/footer.jsp" %>
 
 </div>
 <!-- pagination -->
@@ -65,9 +65,8 @@
 <script src="<c:url value="/static/admin/dist/js/adminlte.js"/>"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
 <!-- Custom -->
-<script src="<c:url value="/static/custom/js/main.js"/>"></script>
-<!-- Utils -->
 <script src="<c:url value="/static/custom/js/utils.js"/>"></script>
+<script src="<c:url value="/static/custom/js/main.js"/>"></script>
 <script src="<c:url value="/static/niceselect/js/nice-select2.js"/>"></script>
 </body>
 </html>

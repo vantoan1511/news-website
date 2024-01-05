@@ -24,7 +24,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findAllByStatusCodeAndCategoryCode(String statusCode, String categoryCode, Pageable pageable);
 
 
-    Page<Article> findAllByCreatedByOrAccessCode(String createdBy, String statusCode, Pageable pageable);
+    Page<Article> findAllByCreatedByAndStatusCodeNotOrAccessCodeAndStatusCodeNot(String createdBy, String statusCode, String accessCode, String oStatusCode, Pageable pageable);
 
     List<Article> findAllByCreatedBy(String createdBy, Pageable pageable);
 

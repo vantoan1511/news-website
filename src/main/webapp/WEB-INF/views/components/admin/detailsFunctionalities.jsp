@@ -16,7 +16,7 @@
             </div>
             <c:if test="${model.statusCode eq 'published'}">
                 <div class="col-sm-auto">
-                    <button onclick="handleArticleUnpublishButtonClick(event, ${model.id})"
+                    <button onclick="handlePublishButtonClick(event, ${model.id}, false)"
                             class="btn btn-block bg-gradient-success">
                         <i class="fas fa-paper-plane" aria-hidden="true"></i> Hủy đăng tải
                     </button>
@@ -24,7 +24,7 @@
             </c:if>
             <c:if test="${model.statusCode eq 'pending'}">
                 <div class="col-sm-auto">
-                    <button onclick="handleArticleApproveButtonClick(event, ${model.id})"
+                    <button onclick="handleApproveButtonClick(event, ${model.id})"
                             class="btn btn-block bg-gradient-success">
                         <i class="fas fa-paper-plane" aria-hidden="true"></i> Chấp nhận
                     </button>

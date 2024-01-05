@@ -153,6 +153,6 @@
     </section>
 </div>
 <script src="<c:url value="/static/ckeditor/ckeditor.js"/>"></script>
-<script src="/static/custom/js/details.js"></script>
+<script src="<c:url value="/static/custom/js/details.js"/>"></script>
 </body>
 </html>

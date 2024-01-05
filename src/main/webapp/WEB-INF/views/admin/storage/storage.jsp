@@ -28,7 +28,7 @@
                         </button>
                     </div>
                     <div class="col-md-auto">
-                        <button onclick="handleTrashButtonClick(event, $('.item-select:checked'))"
+                        <button onclick="handleImageTrashButtonClick(event, $('.item-select:checked'))"
                                 class="btn btn-block btn-default"><i class="ri-delete-bin-line text-danger"></i> Xóa
                         </button>
                     </div>
@@ -43,8 +43,8 @@
                     <tr>
                         <th>
                             <div class="form-check icheck-material-red">
-                                <input type="checkbox"
-                                       class=""
+                                <input onclick="handleSelectAllCheckboxClick(this, '.item-select')"
+                                       type="checkbox"
                                        id="select-all">
                                 <label for="select-all"></label>
                             </div>
@@ -65,7 +65,8 @@
                                 <tr>
                                     <td>
                                         <div class="form-check icheck-material-red">
-                                            <input class="item-select"
+                                            <input onclick="handleSingleCheckboxClick('#select-all', '.item-select')"
+                                                   class="item-select"
                                                    type="checkbox"
                                                    id="${image.id}"
                                                    value="${image.id}">
@@ -105,7 +106,7 @@
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td class="text-center" colspan="7">(Trống)</td>
+                                <td class="text-center" colspan="8">(Trống)</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>
@@ -115,6 +116,5 @@
         </div>
     </section>
 </div>
-<script src="<c:url value="/static/custom/js/storage.js"/>"></script>
 </body>
 </html>

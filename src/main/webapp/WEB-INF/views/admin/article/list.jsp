@@ -176,8 +176,6 @@
         <input type="hidden" value="${model.sortOrder}" name="sortOrder" id="sortOrder">
     </form>
 </div>
-<script src="/static/custom/js/details.js"></script>
-<script src="/static/custom/js/list.js"></script>
 <script>
     $(document).ready(() => {
         var currentPage = ${model.page};
@@ -203,7 +201,6 @@
         $('#sort-by').on('change', function () {
             $('#sortBy').val($(this).val());
             $('#form-submit').submit();
-
         });
 
         $('#sort-order').on('change', function () {

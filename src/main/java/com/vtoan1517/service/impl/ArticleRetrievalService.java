@@ -84,7 +84,8 @@ public class ArticleRetrievalService implements IArticleRetrievalService {
 
     @Override
     public Page<ArticleDTO> findAllByAuthorOrPublicAccess(String authorName, Pageable pageable) {
-        return articleRepository.findAllByCreatedByOrAccessCode(authorName, "public", pageable)
+        return articleRepository.findAllByCreatedByAndStatusCodeNotOrAccessCodeAndStatusCodeNot(
+                        authorName, "trash", "public", "trash", pageable)
                 .map(item -> mapper.map(item, ArticleDTO.class));
     }
 

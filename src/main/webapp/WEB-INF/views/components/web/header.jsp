@@ -1,7 +1,7 @@
 <%@ page import="com.vtoan1517.utils.SecurityUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@ include file="../taglib.jsp" %>
+<%@ include file="../../../../common/taglib.jsp" %>
 
 <header class="primary">
     <div class="firstbar">

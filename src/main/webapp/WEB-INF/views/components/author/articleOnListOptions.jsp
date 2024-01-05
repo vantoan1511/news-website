@@ -10,17 +10,17 @@
     <div class="dropdown-menu dropdown-menu-right" role="menu" style>
         <c:choose>
             <c:when test="${article.statusCode eq 'trash'}">
-                <button onclick="handleSingleArticleDeleteButtonClick(event, ${article.id})"
+                <button onclick="handleDeleteButtonClick(event, ${article.id})"
                         class="dropdown-item btn btn-default btn-sm">
                     <i class="ri-delete-bin-line text-danger"></i> Xóa
                 </button>
-                <button onclick="handleSingleArticleRestoreButtonClick(event, ${article.id})"
+                <button onclick="handleRestoreButtonClick(event, ${article.id})"
                         class="dropdown-item btn btn-default btn-sm">
                     <i class="ri-arrow-go-back-line text-success"></i> Khôi phục
                 </button>
             </c:when>
             <c:otherwise>
-                <button onclick="handleSingleArticleTrashButtonClick(event, ${article.id})"
+                <button onclick="handleTrashButtonClick(event, ${article.id})"
                         class="dropdown-item btn btn-default btn-sm">
                     <i class="ri-delete-bin-line text-danger"></i> Xóa
                 </button>

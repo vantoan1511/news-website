@@ -10,15 +10,15 @@
                 aria-expanded="false"></button>
         <div class="dropdown-menu dropdown-menu-right" role="menu" style>
             <c:if test="${article.statusCode eq 'pending'}">
-                <button onclick="handleArticleApproveButtonClick(event, ${article.id})"
+                <button onclick="handleApproveButtonClick(event, ${article.id})"
                         class="dropdown-item btn btn-default btn-sm"><i class="fas fa-check text-success"></i> Chấp nhận
                 </button>
-                <button onclick="handleArticleRefuseButtonClick(event, ${article.id})"
+                <button onclick="handleRefuseButtonClick(event, ${article.id})"
                         class="dropdown-item btn btn-default btn-sm"><i class="fas fa-times text-danger"></i> Từ chối
                 </button>
             </c:if>
             <c:if test="${article.statusCode eq 'published'}">
-                <button onclick="handleArticleUnpublishButtonClick(event, ${article.id})"
+                <button onclick="handlePublishButtonClick(event, ${article.id}, false)"
                         class="dropdown-item btn btn-default btn-sm"><i class="fas fa-times text-danger"></i> Hủy đăng
                     tải
                 </button>
