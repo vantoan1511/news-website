@@ -98,8 +98,8 @@ public class ArticleModificationService implements IArticleModificationService {
         article = articleRepository.findById(id);
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc không còn nữa");
 
-        if (article.getStatus().getCode().equalsIgnoreCase("draft")) {
-            Status statusEntity = statusRepository.findByCode("pending");
+        if (article.getStatus().getCode().equalsIgnoreCase(Status.STATUS_DRAFT)) {
+            Status statusEntity = statusRepository.findByCode(Status.STATUS_PENDING);
             article.setStatus(statusEntity);
             article = articleRepository.save(article);
         }
@@ -111,8 +111,8 @@ public class ArticleModificationService implements IArticleModificationService {
         article = articleRepository.findById(id);
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc không còn nữa");
 
-        if (article.getStatus().getCode().equalsIgnoreCase("pending")) {
-            Status status = statusRepository.findByCode("published");
+        if (article.getStatus().getCode().equalsIgnoreCase(Status.STATUS_PENDING)) {
+            Status status = statusRepository.findByCode(Status.STATUS_PUBLISHED);
             article.setStatus(status);
             article.setPublishedDate(new Date());
             article = articleRepository.save(article);
@@ -125,8 +125,8 @@ public class ArticleModificationService implements IArticleModificationService {
         article = articleRepository.findById(id);
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc không còn nữa");
 
-        if (article.getStatus().getCode().equalsIgnoreCase("pending")) {
-            Status statusEntity = statusRepository.findByCode("draft");
+        if (article.getStatus().getCode().equalsIgnoreCase(Status.STATUS_PENDING)) {
+            Status statusEntity = statusRepository.findByCode(Status.STATUS_DRAFT);
             article.setStatus(statusEntity);
             article = articleRepository.save(article);
         }
@@ -139,8 +139,8 @@ public class ArticleModificationService implements IArticleModificationService {
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc không còn nữa");
 
         String currentStatus = article.getStatus().getCode();
-        if (currentStatus.equalsIgnoreCase("pending") || currentStatus.equalsIgnoreCase("published")) {
-            Status statusEntity = statusRepository.findByCode("draft");
+        if (currentStatus.equalsIgnoreCase(Status.STATUS_PENDING) || currentStatus.equalsIgnoreCase(Status.STATUS_PUBLISHED)) {
+            Status statusEntity = statusRepository.findByCode(Status.STATUS_DRAFT);
             article.setStatus(statusEntity);
             article = articleRepository.save(article);
         }
@@ -152,8 +152,8 @@ public class ArticleModificationService implements IArticleModificationService {
         article = articleRepository.findById(id);
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc không còn nữa");
 
-        if (article.getStatus().getCode().equalsIgnoreCase("trash")) {
-            Status statusEntity = statusRepository.findByCode("draft");
+        if (article.getStatus().getCode().equals(Status.STATUS_TRASH)) {
+            Status statusEntity = statusRepository.findByCode(Status.STATUS_DRAFT);
             article.setStatus(statusEntity);
             article = articleRepository.save(article);
         }
@@ -165,7 +165,7 @@ public class ArticleModificationService implements IArticleModificationService {
         article = articleRepository.findById(id);
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc không còn nữa");
 
-        Status statusEntity = statusRepository.findByCode("trash");
+        Status statusEntity = statusRepository.findByCode(Status.STATUS_TRASH);
         article.setStatus(statusEntity);
         article.setFeatured(false);
         article = articleRepository.save(article);
@@ -174,7 +174,7 @@ public class ArticleModificationService implements IArticleModificationService {
     @Override
     @Transactional
     public void trash(long[] ids) {
-        Status status = statusRepository.findByCode("trash");
+        Status status = statusRepository.findByCode(Status.STATUS_TRASH);
         for (long id : ids) {
             article = articleRepository.findById(id);
             article.setStatus(status);
@@ -200,7 +200,7 @@ public class ArticleModificationService implements IArticleModificationService {
             throw new ArticleNotFoundException(
                     messageSource.getMessage("article.id.notfound", null, null) + id);
         }
-        if (!article.getStatus().getCode().equalsIgnoreCase("trash")) {
+        if (!article.getStatus().getCode().equals(Status.STATUS_TRASH)) {
             throw new MethodNotAllowException(
                     messageSource.getMessage("article.delete.notallowed", null, null) + id);
         }
