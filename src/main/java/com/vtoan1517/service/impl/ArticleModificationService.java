@@ -65,6 +65,11 @@ public class ArticleModificationService implements IArticleModificationService {
 
         if (articleDTO.getId() != 0) {
             oldArticle = articleRepository.findById(articleDTO.getId());
+            String currentStatus = oldArticle.getStatus().getCode();
+
+            if (currentStatus.equals(Status.STATUS_PENDING) || currentStatus.equals(Status.STATUS_PUBLISHED))
+                throw new MethodNotAllowException("Bài viết này hiện không thể sửa");
+
             article.setCreatedBy(oldArticle.getCreatedBy());
             article.setCreatedDate(oldArticle.getCreatedDate());
         }
