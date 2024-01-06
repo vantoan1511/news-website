@@ -100,6 +100,12 @@ const handleRefuseButtonClick = (event, id) => {
     })
 }
 
+const handleMultipleApproveButtonClick = (event) => {
+    event.preventDefault();
+    showErrorToast('Chức năng đang bảo trì', 2000)
+}
+
+
 /**
  * Details article page
  */
