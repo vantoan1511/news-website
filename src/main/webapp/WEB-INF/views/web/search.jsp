@@ -18,7 +18,10 @@
                         <form action="/search/" method="get">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" name="q" class="form-control"
+                                    <input type="text"
+                                           name="q"
+                                           class="form-control"
+                                           value="${param.q}"
                                            placeholder="Nhập từ khóa tìm kiếm ...">
                                     <div class="input-group-btn">
                                         <button class="btn btn-primary">
