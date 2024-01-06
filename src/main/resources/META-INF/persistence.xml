@@ -12,5 +12,6 @@
         <class>com.vtoan1517.entity.Category</class>
         <class>com.vtoan1517.entity.Status</class>
         <class>com.vtoan1517.entity.Media</class>
+        <class>com.vtoan1517.entity.Review</class>
     </persistence-unit>
 </persistence>
