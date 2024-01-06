@@ -1,10 +1,7 @@
 package com.vtoan1517.advice;
 
 import com.vtoan1517.dto.ErrorResponse;
-import com.vtoan1517.exception.ArticleNotFoundException;
-import com.vtoan1517.exception.CategoryNotFoundException;
-import com.vtoan1517.exception.MethodNotAllowException;
-import com.vtoan1517.exception.ResourceNotFoundException;
+import com.vtoan1517.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -38,6 +35,32 @@ public class ApplicationExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Object handleCategoryNotFoundException(CategoryNotFoundException ex,
                                                   HttpServletRequest request) {
+        if (isAPIRequest(request)) {
+            return new ResponseEntity<>(errorDetails(HttpStatus.NOT_FOUND.value(), ex.getMessage(), ex.getMessage()),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        String viewName = isAdminRequest(request) ? "admin/404" : "web/404";
+        return new ModelAndView(viewName);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object handleUserNotFoundException(UserNotFoundException ex,
+                                              HttpServletRequest request) {
+        if (isAPIRequest(request)) {
+            return new ResponseEntity<>(errorDetails(HttpStatus.NOT_FOUND.value(), ex.getMessage(), ex.getMessage()),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        String viewName = isAdminRequest(request) ? "admin/404" : "web/404";
+        return new ModelAndView(viewName);
+    }
+
+    @ExceptionHandler(ReviewNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object handleReviewNotFoundException(ReviewNotFoundException ex,
+                                                HttpServletRequest request) {
         if (isAPIRequest(request)) {
             return new ResponseEntity<>(errorDetails(HttpStatus.NOT_FOUND.value(), ex.getMessage(), ex.getMessage()),
                     HttpStatus.NOT_FOUND);
