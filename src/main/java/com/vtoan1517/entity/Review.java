@@ -28,7 +28,7 @@ public class Review extends Base {
     @JoinColumn(name = "parent_id")
     private Review parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Review> children = new ArrayList<>();
 
 }
