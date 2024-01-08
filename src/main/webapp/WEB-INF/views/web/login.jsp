@@ -22,6 +22,7 @@
                 </div>
             </c:if>
             <form action="/perform-login" method="post">
+                <input type="hidden" name="nextUrl" value="${param.nextUrl}">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập/Email"/>
                     <div class="input-group-append">
@@ -52,20 +53,16 @@
                     </div>
                 </div>
             </form>
-
             <div class="social-auth-links text-center mb-3">
                 <p>- hoặc -</p>
                 <a href="<c:url value="/register"/>" class="btn btn-block btn-outline-success">
                     Tạo tài khoản mới <i class="ri-user-add-line"></i>
                 </a>
             </div>
-            <!-- /.social-auth-links -->
-
             <p class="mb-1">
                 <a href="/forgot">Quên mật khẩu <i class="ri-question-line"></i></a>
             </p>
         </div>
-        <!-- /.login-card-body -->
     </div>
 </div>
 </body>
