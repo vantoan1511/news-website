@@ -2,8 +2,14 @@
          pageEncoding="UTF-8" %>
 <%@ include file="../../../../common/taglib.jsp" %>
 
-<div class="comments">
-    <h2 class="title">3 Responses <a href="#">Write a Response</a></h2>
+<div id="comments-section"
+     class="comments">
+    <h2 class="title">3 Responses
+        <sec:authorize access="isAnonymous()">
+            <a onclick="handleLoginButton(event, this)"
+               href="#">Đăng nhập để bình luận</a>
+        </sec:authorize>
+    </h2>
     <div class="comment-list">
         <div class="item">
             <div class="user">
@@ -50,29 +56,23 @@
             </div>
         </div>
     </div>
-    <form class="row">
+    <form id="review-form"
+          class="row">
         <div class="col-md-12">
-            <h3 class="title">Leave Your Response</h3>
-        </div>
-        <div class="form-group col-md-4">
-            <label for="name">Name <span class="required"></span></label>
-            <input type="text" id="name" name="" class="form-control">
-        </div>
-        <div class="form-group col-md-4">
-            <label for="email">Email <span class="required"></span></label>
-            <input type="email" id="email" name="" class="form-control">
-        </div>
-        <div class="form-group col-md-4">
-            <label for="website">Website</label>
-            <input type="url" id="website" name="" class="form-control">
+            <h3 class="title">Suy nghĩ của bạn</h3>
         </div>
         <div class="form-group col-md-12">
-            <label for="message">Response <span class="required"></span></label>
-            <textarea class="form-control" name="message"
-                      placeholder="Write your response ..."></textarea>
+            <label for="text">Bình luận <span class="required"></span></label>
+            <textarea class="form-control"
+                      id="text"
+                      name="text"
+                      placeholder="Viết bình luận của bạn tại đây ..."></textarea>
         </div>
         <div class="form-group col-md-12">
-            <button class="btn btn-primary">Send Response</button>
+            <button onclick="handleReviewSubmitButtonClick(event)"
+                    id="review-submit-btn"
+                    class="btn btn-primary">Gửi
+            </button>
         </div>
     </form>
 </div>

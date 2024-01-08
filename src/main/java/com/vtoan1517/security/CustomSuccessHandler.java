@@ -23,6 +23,8 @@ import java.util.List;
 @Setter
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private String nextUrl;
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -30,7 +32,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             throws IOException, ServletException {
         String targetUrl;
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
-        if (savedRequest != null && savedRequest.getRedirectUrl() != null) {
+        if (nextUrl != null && !nextUrl.isBlank()) {
+            targetUrl = nextUrl;
+        } else if (savedRequest != null && savedRequest.getRedirectUrl() != null) {
             targetUrl = savedRequest.getRedirectUrl();
         } else {
             targetUrl = determineTargetUrl(authentication);

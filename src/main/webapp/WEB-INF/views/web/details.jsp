@@ -61,5 +61,6 @@
         </div>
     </div>
 </section>
+<script src="../../../static/custom/js/single.js"></script>
 </body>
 </html>

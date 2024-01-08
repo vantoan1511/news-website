@@ -226,3 +226,13 @@ const handleImageTrashButtonClick = (event, elements) => {
             })
         }, (xhr) => errorCallback(xhr))
 }
+
+/**
+ * Web single article
+ */
+
+const handleLoginButton = (event, self) => {
+    event.preventDefault();
+    let nextUrl = location.href;
+    location.replace(location.origin + '/login?nextUrl=' + nextUrl + '#comments-section')
+}
