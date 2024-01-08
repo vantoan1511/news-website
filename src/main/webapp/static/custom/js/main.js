@@ -17,10 +17,8 @@ $(document).ready(() => {
     });
 });
 
-function scrollToTop() {
-    console.log('clicked')
+const scrollToTop = () => {
     if ($(window).scrollTop() > 20) {
-        console.log('>20')
         $('body, html').animate({
             scrollTop: 0
         }, 800)
