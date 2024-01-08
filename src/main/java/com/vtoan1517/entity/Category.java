@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 public class Category extends Base {
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String code;
 
     @Column

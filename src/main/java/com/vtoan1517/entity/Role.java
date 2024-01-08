@@ -20,7 +20,7 @@ public class Role extends Base {
     public static final String ROLE_AUTHOR = "author";
     public static final String ROLE_USER = "user";
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String code;
 
     @Column
