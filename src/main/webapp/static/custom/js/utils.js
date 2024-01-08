@@ -104,13 +104,15 @@ const getElementsID = (selector) => {
     }).get();
     return ids;
 }
-const getCKEditorContent = (selector) => {
-    let formData = $(selector).serializeArray();
-    let contentData = CKEDITOR.instances.content.getData();
+
+const getFormData = (formSelector) => {
+    let formData = $(formSelector).serializeArray();
     let data = {};
     $.each(formData, (i, v) => data[v.name] = v.value);
-    data["content"] = contentData;
     return data;
+}
+const getCKEditorContent = () => {
+    return CKEDITOR.instances.content.getData();
 }
 
 const handleImageInspect = (event, url) => {

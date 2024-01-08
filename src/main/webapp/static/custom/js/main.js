@@ -128,7 +128,8 @@ const handleMultipleApproveButtonClick = (event) => {
 
 const handleSaveButtonClick = (event, formSelector, saveAndClose, saveAndNew) => {
     event.preventDefault();
-    let data = getCKEditorContent(formSelector);
+    let data = getFormData(formSelector);
+    data["content"] = getCKEditorContent();
     let id = data["id"];
     let successCallback = (result) => {
         showSuccessAlert('Các thay đổi đã được lưu', () => {
