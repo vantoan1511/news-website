@@ -51,5 +51,7 @@
 <script src="<c:url value="/static/web/scripts/toast/jquery.toast.min.js"/>"></script>
 <script src="<c:url value="/static/web/js/demo.js"/>"></script>
 <script src="<c:url value="/static/web/js/e-magz.js"/>"></script>
+<script src="../static/custom/js/utils.js"></script>
+<script src="../static/custom/js/main.js"></script>
 </body>
 </html>
