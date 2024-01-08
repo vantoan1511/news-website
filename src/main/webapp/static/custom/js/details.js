@@ -1,6 +1,6 @@
 $(document).ready(() => {
     //init ckeditor
-    CKEDITOR.plugins.addExternal('video', '/ckeditor/video/', 'plugin.js');
+    CKEDITOR.plugins.addExternal('video', '/static/ckeditor/plugins/video/', 'plugin.js');
     CKEDITOR.replace('content', {
         extraPlugins: 'video'
     });
