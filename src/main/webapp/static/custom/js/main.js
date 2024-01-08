@@ -7,7 +7,25 @@ $(document).ready(() => {
             link.classList.add('active');
         }
     });
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 20) {
+            $('#back-to-top').fadeIn();
+        } else {
+            $('#back-to-top').fadeOut();
+        }
+    });
 });
+
+function scrollToTop() {
+    console.log('clicked')
+    if ($(window).scrollTop() > 20) {
+        console.log('>20')
+        $('body, html').animate({
+            scrollTop: 0
+        }, 800)
+    }
+}
 
 /**
  * Listing article page

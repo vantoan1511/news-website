@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="<c:url value="/static/web/css/skins/all.css"/>">
     <link rel="stylesheet" href="<c:url value="/static/web/css/demo.css"/>">
     <link rel="stylesheet" href="../static/remixicon/remixicon.css">
-
+    <link rel="stylesheet" href="../static/custom/css/styles.css">
     <script src="<c:url value="/static/web/js/jquery.js"/>"></script>
 
 </head>
@@ -39,6 +39,8 @@
 
 <%@include file="../WEB-INF/views/components/web/footer.jsp" %>
 
+<!-- Back to Top Button -->
+<button id="back-to-top" onclick="scrollToTop()"><i class="ion-android-arrow-up"></i></button>
 
 <!-- JS -->
 <script src="<c:url value="/static/web/scripts/bootstrap/bootstrap.min.js"/>"></script>
