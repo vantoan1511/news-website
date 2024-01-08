@@ -5,6 +5,7 @@ import com.vtoan1517.utils.SecurityUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -16,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -23,29 +25,30 @@ import java.util.List;
 @Setter
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private String nextUrl;
-
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
-        String targetUrl;
-        SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
-        if (nextUrl != null && !nextUrl.isBlank()) {
-            targetUrl = nextUrl;
-        } else if (savedRequest != null && savedRequest.getRedirectUrl() != null) {
-            targetUrl = savedRequest.getRedirectUrl();
-        } else {
-            targetUrl = determineTargetUrl(authentication);
-        }
+
         if (response.isCommitted()) {
             return;
         }
+        String targetUrl = determineTargetUrl(request, response, authentication);
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    private String determineTargetUrl(Authentication authentication) {
+    private String determineTargetUrl(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      Authentication authentication) {
+        String nextUrl = request.getParameter("nextUrl");
+        if (nextUrl != null && !nextUrl.isBlank()) return nextUrl;
+
+        SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+        if (savedRequest != null && savedRequest.getRedirectUrl() != null) {
+            return savedRequest.getRedirectUrl();
+        }
+
         List<String> roles = SecurityUtils.getAuthorities();
         return (isAdmin(roles) || isAuthor(roles)) ? "/admin/home" : "/home";
     }
