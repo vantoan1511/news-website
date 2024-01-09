@@ -231,7 +231,6 @@
             <artifactId>simple-java-mail</artifactId>
             <version>8.5.1</version>
         </dependency>
-
     </dependencies>
 
     <build>
