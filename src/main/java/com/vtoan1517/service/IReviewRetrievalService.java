@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 public interface IReviewRetrievalService {
     Page<ReviewDTO> findAllByArticleId(long id, Pageable pageable);
 
+    Page<ReviewDTO> findAllByArticleSlug(String slug, Pageable pageable);
+
     Page<ReviewDTO> findAllByUserId(long id, Pageable pageable);
 
 }
