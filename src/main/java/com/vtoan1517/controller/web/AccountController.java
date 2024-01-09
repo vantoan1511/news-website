@@ -32,7 +32,10 @@ public class AccountController {
 
         String viewName = "redirect:/login";
 
-        if (token != null) {
+        if (token == null || token.isBlank() || !userService.foundByToken(token)) {
+            attributes.addFlashAttribute("message",
+                    new FlashMessage(FlashMessage.DANGER, "Đường dẫn đã hết hạn hoặc không tồn tại"));
+        } else {
             UserDTO userDTO = userService.findByToken(token);
             if (userDTO != null && userService.activate(token) != null) {
                 attributes.addFlashAttribute("message",
@@ -41,7 +44,6 @@ public class AccountController {
                 return new ModelAndView(viewName);
             }
         }
-        attributes.addFlashAttribute("message", new FlashMessage(FlashMessage.DANGER, "Truy cập không hợp lệ"));
         return new ModelAndView(viewName);
     }
 }
