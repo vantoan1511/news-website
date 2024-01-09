@@ -4,6 +4,7 @@ import com.vtoan1517.dto.UserDTO;
 import com.vtoan1517.exception.InvalidUserTokenException;
 import com.vtoan1517.exception.UserNotFoundException;
 import com.vtoan1517.service.IUserService;
+import com.vtoan1517.utils.FlashMessage;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +35,13 @@ public class AccountController {
         if (token != null) {
             UserDTO userDTO = userService.findByToken(token);
             if (userDTO != null && userService.activate(token) != null) {
-                attributes.addFlashAttribute("type", "success");
-                attributes.addFlashAttribute("message", source.getMessage("account.activated", null, null));
+                attributes.addFlashAttribute("message",
+                        new FlashMessage(FlashMessage.SUCCESS,
+                                source.getMessage("account.activated", null, null)));
                 return new ModelAndView(viewName);
             }
         }
-        attributes.addFlashAttribute("type", "danger");
-        attributes.addFlashAttribute("message", "Truy cập không hợp lệ");
+        attributes.addFlashAttribute("message", new FlashMessage(FlashMessage.DANGER, "Truy cập không hợp lệ"));
         return new ModelAndView(viewName);
     }
 }

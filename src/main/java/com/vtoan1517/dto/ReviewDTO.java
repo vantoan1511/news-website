@@ -15,10 +15,8 @@ import java.util.List;
 public class ReviewDTO extends BaseDTO {
     @Size(min = 1, message = "Độ dài bình luận tối thiểu 1 ký tự")
     private String text;
-    @Range(min = 1L, message = "Id bài viết không hợp lệ")
-    private long articleId;
-    @Range(min = 1L, message = "Id người dùng không hợp lệ")
-    private long userId;
+    private String articleSlug;
+    private String username;
     private long parentId;
     private List<ReviewDTO> children = new ArrayList<>();
 }

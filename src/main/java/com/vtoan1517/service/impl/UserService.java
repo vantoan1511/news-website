@@ -13,6 +13,7 @@ import com.vtoan1517.service.IEmailService;
 import com.vtoan1517.service.IUserService;
 import com.vtoan1517.utils.CollectionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,12 +57,14 @@ public class UserService implements IUserService {
     @Override
     public UserDTO findByUsername(String username) {
         User user = userRepository.findByUsername(username);
+        if (user == null) throw new UsernameNotFoundException("Tên đăng nhập không tồn tại");
         return mapper.map(user, UserDTO.class);
     }
 
     @Override
-    public UserDTO findByToken(String token) {
+    public UserDTO findByToken(String token) throws InvalidUserTokenException {
         User user = userRepository.findByToken(token);
+        if (user == null) throw new InvalidUserTokenException("Token không hợp lệ hoặc đã hết hạn");
         return mapper.map(user, UserDTO.class);
     }
 
@@ -75,6 +78,7 @@ public class UserService implements IUserService {
 
         String token = UUID.randomUUID().toString();
         newUserDTO.setToken(token);
+
         StringBuilder text = new StringBuilder("Tai khoan cua ban da duoc dang ky thanh cong!");
         text.append("Click vao duong link sau de kich hoat tai khoan: ");
         text.append("<a href='");

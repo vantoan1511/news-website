@@ -21,7 +21,8 @@
           href="<c:url value="/static/web/scripts/owlcarousel/dist/assets/owl.theme.default.min.css"/>">
     <!-- Magnific Popup -->
     <link rel="stylesheet" href="<c:url value="/static/web/scripts/magnific-popup/dist/magnific-popup.css"/>">
-    <link rel="stylesheet" href="<c:url value="/static/web/scripts/sweetalert/dist/sweetalert.css"/>">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">
+
     <!-- Custom style -->
     <link rel="stylesheet" href="<c:url value="/static/web/css/style.css"/>">
     <link rel="stylesheet" href="<c:url value="/static/web/css/skins/all.css"/>">
@@ -49,7 +50,7 @@
 <script src="<c:url value="/static/web/scripts/owlcarousel/dist/owl.carousel.min.js"/>"></script>
 <script src="<c:url value="/static/web/scripts/magnific-popup/dist/jquery.magnific-popup.min.js"/>"></script>
 <script src="<c:url value="/static/web/scripts/easescroll/jquery.easeScroll.js"/>"></script>
-<script src="<c:url value="/static/web/scripts/sweetalert/dist/sweetalert.min.js"/>"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
 <script src="<c:url value="/static/web/scripts/toast/jquery.toast.min.js"/>"></script>
 <script src="<c:url value="/static/web/js/demo.js"/>"></script>
 <script src="<c:url value="/static/web/js/e-magz.js"/>"></script>

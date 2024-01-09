@@ -38,8 +38,8 @@ public class ReviewModificationService implements IReviewModificationService {
     @Override
     @Transactional
     public ReviewDTO save(ReviewDTO newReviewDTO) throws ArticleNotFoundException, UserNotFoundException, ReviewNotFoundException {
-        Article article = articleRepository.findById(newReviewDTO.getArticleId());
-        User user = userRepository.findOne(newReviewDTO.getUserId());
+        Article article = articleRepository.findBySlug(newReviewDTO.getArticleSlug());
+        User user = userRepository.findByUsername(newReviewDTO.getUsername());
         Review review = mapper.map(newReviewDTO, Review.class);
 
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc đã bị xóa");

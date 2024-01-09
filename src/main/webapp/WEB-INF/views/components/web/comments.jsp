@@ -1,10 +1,34 @@
+<%@ page import="com.vtoan1517.utils.SecurityUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="../../../../common/taglib.jsp" %>
 
 <div id="comments-section"
      class="comments">
-    <h2 class="title">3 Responses
+    <form accept-charset="UTF-8"
+          <sec:authorize access="isAnonymous()">class="hidden"</sec:authorize>
+          class="row"
+          id="review-form">
+        <div class="col-md-12">
+            <h3 class="title">Suy nghĩ của bạn</h3>
+        </div>
+        <div class="form-group col-md-12">
+            <label for="text">Bình luận <span class="required"></span></label>
+            <textarea class="form-control"
+                      id="text"
+                      name="text"
+                      placeholder="Viết bình luận của bạn tại đây ..."></textarea>
+        </div>
+        <div class="form-group col-md-12">
+            <button onclick="handleReviewSubmitButtonClick(event, '#review-form')"
+                    id="review-submit-btn"
+                    class="btn btn-primary">Gửi
+            </button>
+        </div>
+        <input type="hidden" name="articleId" value="${article.slug}">
+        <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}">
+    </form>
+    <h2 class="title">3 Bình luận
         <sec:authorize access="isAnonymous()">
             <a onclick="handleLoginButton(event, this)"
                href="#">Đăng nhập để bình luận</a>
@@ -56,23 +80,4 @@
             </div>
         </div>
     </div>
-    <form id="review-form"
-          class="row">
-        <div class="col-md-12">
-            <h3 class="title">Suy nghĩ của bạn</h3>
-        </div>
-        <div class="form-group col-md-12">
-            <label for="text">Bình luận <span class="required"></span></label>
-            <textarea class="form-control"
-                      id="text"
-                      name="text"
-                      placeholder="Viết bình luận của bạn tại đây ..."></textarea>
-        </div>
-        <div class="form-group col-md-12">
-            <button onclick="handleReviewSubmitButtonClick(event)"
-                    id="review-submit-btn"
-                    class="btn btn-primary">Gửi
-            </button>
-        </div>
-    </form>
 </div>

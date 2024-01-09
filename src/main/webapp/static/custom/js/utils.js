@@ -40,6 +40,17 @@ function showErrorToast(text, timer) {
     })
 }
 
+function showBottomErrorToast(text, timer) {
+    Swal.fire({
+        toast: true,
+        position: 'bottom-end',
+        icon: 'error',
+        showConfirmButton: false,
+        text: text,
+        timer: timer
+    })
+}
+
 const getResponseTextAsJSON = (XmlHttpRequest) => {
     return JSON.parse(XmlHttpRequest.responseText);
 }

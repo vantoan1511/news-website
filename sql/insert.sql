@@ -5,16 +5,16 @@ VALUES ('author', 'Tác giả');
 INSERT INTO `news-website`.`role` (`code`, `name`)
 VALUES ('user', 'Người dùng');
 
-INSERT INTO `` (`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `published_date`, `activated`,
-                `avatar_url`, `email`, `first_name`, `last_name`, `password`, `token`, `username`)
+INSERT INTO `user` (`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `published_date`, `activated`,
+                    `avatar_url`, `email`, `first_name`, `last_name`, `password`, `token`, `username`)
 VALUES (1, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'admin@admin.com', 'Nguyễn', 'Văn Toàn',
         '$2a$10$lpOtE5yW9YBCENoqCMk7TefPxlo0pqLy8q/Tbfg0/Apf3/ZDI7V6O', NULL, 'admin');
-INSERT INTO `` (`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `published_date`, `activated`,
-                `avatar_url`, `email`, `first_name`, `last_name`, `password`, `token`, `username`)
+INSERT INTO `user` (`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `published_date`, `activated`,
+                    `avatar_url`, `email`, `first_name`, `last_name`, `password`, `token`, `username`)
 VALUES (2, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'author01@author.com', 'Nguyễn', 'Văn Toàn',
         '$2a$10$mhuc8RS45i7XbNX0yHlOhebwOO437q7XoKY.AElMW05.5G60CGVGK', NULL, 'author01');
-INSERT INTO `` (`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `published_date`, `activated`,
-                `avatar_url`, `email`, `first_name`, `last_name`, `password`, `token`, `username`)
+INSERT INTO `user` (`id`, `created_by`, `created_date`, `modified_by`, `modified_date`, `published_date`, `activated`,
+                    `avatar_url`, `email`, `first_name`, `last_name`, `password`, `token`, `username`)
 VALUES (3, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'user@user.com', 'Nguyễn', 'Văn Toàn',
         '$2a$10$mhuc8RS45i7XbNX0yHlOhebwOO437q7XoKY.AElMW05.5G60CGVGK', NULL, 'user');
 
