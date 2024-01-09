@@ -25,59 +25,43 @@
                     class="btn btn-primary">Gửi
             </button>
         </div>
-        <input type="hidden" name="articleId" value="${article.slug}">
+        <input type="hidden" name="articleSlug" value="${article.slug}">
         <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}">
     </form>
-    <h2 class="title">3 Bình luận
+    <h2 class="title">${comments.getTotalElements()} Bình luận
         <sec:authorize access="isAnonymous()">
             <a onclick="handleLoginButton(event, this)"
                href="#">Đăng nhập để bình luận</a>
         </sec:authorize>
     </h2>
     <div class="comment-list">
-        <div class="item">
-            <div class="user">
-                <figure>
-                    <img src="/static/web/images/img01.jpg">
-                </figure>
-                <div class="details">
-                    <h5 class="name">Mark Otto</h5>
-                    <div class="time">24 Hours</div>
-                    <div class="description">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore <a href="#">magna</a> aliqua. Ut enim ad
-                        minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-                    </div>
-                    <footer>
-                        <a href="#">Reply</a>
-                    </footer>
-                </div>
-            </div>
-            <div class="reply-list">
-                <div class="item">
-                    <div class="user">
-                        <figure>
-                            <img src="/static/web/images/img01.jpg">
-                        </figure>
-                        <div class="details">
-                            <h5 class="name">Mark Otto</h5>
-                            <div class="time">24 Hours</div>
-                            <div class="description">
-                                Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </div>
-                            <footer>
-                                <a href="#">Reply</a>
-                            </footer>
-                        </div>
+        <c:forEach items="${comments.getContent()}" var="review">
+            <div id="${review.id}" class="item">
+                <div class="user">
+                    <figure>
+                        <img src="/static/web/images/img01.jpg">
+                    </figure>
+                    <div class="details">
+                        <h5 class="name">${review.username}</h5>
+                        <div class="time"><fmt:formatDate value="${review.createdDate}"/></div>
+                        <div class="description">${review.text}</div>
+                        <footer>
+                            <a href="#">Reply</a>
+                        </footer>
                     </div>
                 </div>
             </div>
+        </c:forEach>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <c:if test="${comments.hasNext()}">
+                <input type="hidden" name="page" value="${comments.getNumber()}">
+                <input type="hidden" name="limit" value="${comments.getSize()}">
+                <button onclick="handleLoadMoreReviews(event, ${article.id}, ${comments.getNumber()}, ${comments.getSize()})"
+                        id="load-more-review-btn"
+                        class="btn btn-magz">Xem thêm <i class="ion-android-arrow-down"></i></button>
+            </c:if>
         </div>
     </div>
 </div>
