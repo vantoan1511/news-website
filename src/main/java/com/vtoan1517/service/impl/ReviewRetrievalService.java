@@ -7,6 +7,7 @@ import com.vtoan1517.service.IReviewRetrievalService;
 import com.vtoan1517.utils.CollectionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,12 @@ public class ReviewRetrievalService implements IReviewRetrievalService {
     @Override
     public Page<ReviewDTO> findAllByArticleId(long id, Pageable pageable) {
         return reviewRepository.findAllByArticleId(id, pageable)
+                .map(item -> mapper.map(item, ReviewDTO.class));
+    }
+
+    @Override
+    public Page<ReviewDTO> findAllByArticleSlug(String slug, Pageable pageable) {
+        return reviewRepository.findAllByArticleSlug(slug, pageable)
                 .map(item -> mapper.map(item, ReviewDTO.class));
     }
 
