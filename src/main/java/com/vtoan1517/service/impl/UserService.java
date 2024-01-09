@@ -6,6 +6,7 @@ import com.vtoan1517.entity.Role;
 import com.vtoan1517.entity.User;
 import com.vtoan1517.exception.EmailNotFoundException;
 import com.vtoan1517.exception.InvalidUserTokenException;
+import com.vtoan1517.exception.UserNotFoundException;
 import com.vtoan1517.repository.RoleRepository;
 import com.vtoan1517.repository.UserRepository;
 import com.vtoan1517.service.IEmailService;
@@ -39,29 +40,29 @@ public class UserService implements IUserService {
 
     @Override
     public boolean foundByToken(String token) {
-        return userRepository.findByToken(token).isPresent();
+        return userRepository.findByToken(token) != null;
     }
 
     @Override
     public boolean isExistingEmail(String email) {
-        return userRepository.findByEmail(email).isPresent();
+        return userRepository.findByEmail(email) != null;
     }
 
     @Override
     public boolean isExistingUsername(String username) {
-        return userRepository.findByUsername(username).isPresent();
+        return userRepository.findByUsername(username) != null;
     }
 
     @Override
     public UserDTO findByUsername(String username) {
-        Optional<User> userEntity = userRepository.findByUsername(username);
-        return userEntity.map(entity -> mapper.map(entity, UserDTO.class)).orElse(null);
+        User user = userRepository.findByUsername(username);
+        return mapper.map(user, UserDTO.class);
     }
 
     @Override
     public UserDTO findByToken(String token) {
-        Optional<User> userEntity = userRepository.findByToken(token);
-        return userEntity.map(entity -> mapper.map(entity, UserDTO.class)).orElse(null);
+        User user = userRepository.findByToken(token);
+        return mapper.map(user, UserDTO.class);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class UserService implements IUserService {
         newUserDTO.setFirstName(newUserDTO.getFirstName().trim());
         newUserDTO.setLastName(newUserDTO.getLastName().trim());
         newUserDTO.setAvatarUrl("/static/admin/dist/img/avatar.png");
-        //Just for testing
+
         String token = UUID.randomUUID().toString();
         newUserDTO.setToken(token);
         StringBuilder text = new StringBuilder("Tai khoan cua ban da duoc dang ky thanh cong!");
@@ -90,23 +91,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO activate(String token) {
-        Optional<User> found = userRepository.findByToken(token);
-        if (found.isPresent()) {
-            User user = found.get();
-            user.setToken(null);
-            user.setActivated(true);
-            user = userRepository.save(user);
-            return mapper.map(user, UserDTO.class);
-        }
-        return null;
+    public UserDTO activate(String token) throws InvalidUserTokenException {
+        User user = userRepository.findByToken(token);
+        if (user == null) throw new InvalidUserTokenException("Token không tồn tại hoặc đã hết hạn");
+
+        user.setToken(null);
+        user.setActivated(true);
+        user = userRepository.save(user);
+        return mapper.map(user, UserDTO.class);
     }
 
     @Override
     public void resetPassword(String email) throws EmailNotFoundException {
-        Optional<User> found = userRepository.findByEmail(email);
-        if (found.isPresent()) {
-            User user = found.get();
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user = userRepository.save(user);
@@ -128,15 +126,12 @@ public class UserService implements IUserService {
 
     @Override
     public void changePassword(String token, String newPassword) throws InvalidUserTokenException {
-        Optional<User> found = userRepository.findByToken(token);
-        if (found.isPresent()) {
-            User user = found.get();
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            user.setPassword(encoder.encode(newPassword));
-            user.setToken(null);
-            userRepository.save(user);
-        } else {
-            throw new InvalidUserTokenException("Truy cập vào token không hợp lệ");
-        }
+        User user = userRepository.findByToken(token);
+        if (user == null) throw new InvalidUserTokenException("Token không tồn tại hoặc đã hết hạn");
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(newPassword));
+        user.setToken(null);
+        userRepository.save(user);
     }
 }

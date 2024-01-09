@@ -1,6 +1,8 @@
 package com.vtoan1517.controller.web;
 
 import com.vtoan1517.dto.UserDTO;
+import com.vtoan1517.exception.InvalidUserTokenException;
+import com.vtoan1517.exception.UserNotFoundException;
 import com.vtoan1517.service.IUserService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -25,7 +27,7 @@ public class AccountController {
     }
 
     @GetMapping("/activate")
-    public ModelAndView activate(@RequestParam("token") String token, RedirectAttributes attributes) {
+    public ModelAndView activate(@RequestParam("token") String token, RedirectAttributes attributes) throws InvalidUserTokenException, UserNotFoundException {
 
         String viewName = "redirect:/login";
 

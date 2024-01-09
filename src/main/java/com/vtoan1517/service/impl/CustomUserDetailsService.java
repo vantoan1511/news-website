@@ -14,25 +14,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<User> optionalUserEntity;
-        optionalUserEntity = isEmail(username) ? userRepository.findByEmail(username) : userRepository.findByUsername(username);
+        User user = isEmail(username) ? userRepository.findByEmail(username) : userRepository.findByUsername(username);
 
-        if (optionalUserEntity.isEmpty()) {
+        if (user == null) {
             throw new UsernameNotFoundException("Không tìm thấy tài khoản với tên đăng nhập " + username);
         }
-
-        User user = optionalUserEntity.get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role role : user.getRoles()) {
