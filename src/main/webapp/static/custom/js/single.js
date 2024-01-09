@@ -1,5 +1,14 @@
 $(document).ready(() => {
+
 })
+
+const handleReplyButton = (self) => {
+    let id = $(self).data('item-id');
+    let replyText = $('#' + id + ' .description').text()
+    console.log(replyText)
+    $('#reply-text').text(replyText)
+    $('#reply-to-text').removeClass('hidden')
+}
 
 const handleReviewSubmitButtonClick = (event, formSelector) => {
     event.preventDefault();
@@ -41,6 +50,7 @@ const handleLoadMoreReviews = (event, id, page, limit) => {
 const cloneAndReplace = (data) => {
     let item = $('.item:first').clone();
     item.attr('id', data.id);
+    item.find('.reply-button').attr('data-item-id', data.id)
     item.find('.name').text(data.username);
     let date = new Date(data.createdDate)
     let formattedDate = date.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});

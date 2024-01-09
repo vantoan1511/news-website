@@ -9,11 +9,15 @@
           <sec:authorize access="isAnonymous()">class="hidden"</sec:authorize>
           class="row"
           id="review-form">
-        <div class="col-md-12">
+        <div id="leave-review" class="col-md-12">
             <h3 class="title">Suy nghĩ của bạn</h3>
         </div>
         <div class="form-group col-md-12">
             <label for="text">Bình luận <span class="required"></span></label>
+            <div id="reply-to-text"
+                 class="hidden">
+                <blockquote id="reply-text"></blockquote>
+            </div>
             <textarea class="form-control"
                       id="text"
                       name="text"
@@ -46,7 +50,10 @@
                         <div class="time"><fmt:formatDate value="${review.createdDate}"/></div>
                         <div class="description">${review.text}</div>
                         <footer>
-                            <a href="#">Reply</a>
+                            <a onclick="handleReplyButton(this)"
+                               data-item-id="${review.id}"
+                               class="reply-button"
+                               href="#leave-review">Trả lời</a>
                         </footer>
                     </div>
                 </div>
