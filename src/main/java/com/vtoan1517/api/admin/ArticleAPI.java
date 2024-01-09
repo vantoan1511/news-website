@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,11 @@ public class ArticleAPI {
     @GetMapping("/{id}/reviews")
     public ResponseEntity<Object> getReviews(@PathVariable("id") long id,
                                              @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                             @RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
-        Pageable pageable = new PageRequest(page - 1, limit);
+                                             @RequestParam(value = "limit", required = false, defaultValue = "2") int limit,
+                                             @RequestParam(value = "order", required = false, defaultValue = "desc") String order,
+                                             @RequestParam(value = "by", required = false, defaultValue = "createdDate") String by) {
+        Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = new PageRequest(page - 1, limit, new Sort(direction, by));
         return new ResponseEntity<>(reviewRetrievalService.findAllByArticleId(id, pageable), HttpStatus.OK);
     }
 
