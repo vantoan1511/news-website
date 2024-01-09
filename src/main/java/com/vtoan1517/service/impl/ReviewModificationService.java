@@ -12,6 +12,7 @@ import com.vtoan1517.repository.ReviewRepository;
 import com.vtoan1517.repository.UserRepository;
 import com.vtoan1517.service.IReviewModificationService;
 import com.vtoan1517.utils.CollectionMapper;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +60,8 @@ public class ReviewModificationService implements IReviewModificationService {
             review.setCreatedBy(oldReview.getCreatedBy());
             review.setCreatedDate(oldReview.getCreatedDate());
         }
+
+        review.setText(StringEscapeUtils.escapeHtml4(newReviewDTO.getText()));
 
         return mapper.map(reviewRepository.save(review), ReviewDTO.class);
     }
