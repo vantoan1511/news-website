@@ -3,6 +3,7 @@ package com.vtoan1517.service;
 import com.vtoan1517.dto.UserDTO;
 import com.vtoan1517.exception.EmailNotFoundException;
 import com.vtoan1517.exception.InvalidUserTokenException;
+import com.vtoan1517.exception.UserNotFoundException;
 
 public interface IUserService {
 
@@ -18,7 +19,7 @@ public interface IUserService {
 
     UserDTO register(UserDTO userDTO);
 
-    UserDTO activate(String token);
+    UserDTO activate(String token) throws UserNotFoundException, InvalidUserTokenException;
 
     void resetPassword(String email) throws EmailNotFoundException;
 
