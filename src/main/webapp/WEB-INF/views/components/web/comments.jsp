@@ -46,7 +46,7 @@
         </sec:authorize>
     </h2>
     <div id="comment-list" class="comment-list">
-        <c:forEach items="${comments.getContent()}" var="review">
+        <%--<c:forEach items="${comments.getContent()}" var="review">
             <div id="${review.id}" class="item">
                 <div class="user">
                     <figure>
@@ -80,17 +80,21 @@
                     </div>
                 </div>
             </div>
-        </c:forEach>
+        </c:forEach>--%>
     </div>
     <div class="row">
         <div class="col text-center">
-            <c:if test="${comments.hasNext()}">
+            <%--<c:if test="${comments.hasNext()}">
                 <input type="hidden" name="page" value="${comments.getNumber()}">
                 <input type="hidden" name="limit" value="${comments.getSize()}">
                 <button onclick="handleLoadMoreReviews(event, ${article.id}, ${comments.getNumber()}, ${comments.getSize()})"
                         id="load-more-review-btn"
                         class="btn btn-magz">Xem thêm <i class="ion-android-arrow-down"></i></button>
-            </c:if>
+            </c:if>--%>
+            <button onclick="loadReviews()"
+                    id="load-more-reviews-button"
+                    class="btn btn-magz">Xem thêm <i class="ion-android-arrow-down"></i></button>
         </div>
     </div>
 </div>
+<div id="id" data-article-id="${article.id}"></div>

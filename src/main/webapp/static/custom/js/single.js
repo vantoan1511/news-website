@@ -1,6 +1,55 @@
-$(document).ready(() => {
+let pageRequest = {}
+let page = 1, limit = 2;
+const apiUrl = '/api/v1/articles/';
+let targetUrl, articleId;
 
+$(document).ready(() => {
+    loadReviews()
 })
+
+const loadReviews = () => {
+    articleId = $('#id').data('article-id');
+    targetUrl = apiUrl + articleId + '/reviews?page=' + page + '&limit=' + limit;
+    getReviews(targetUrl)
+    const $loadMore = $('#load-more-reviews-button');
+    if (!pageRequest.last) {
+        page += 1;
+    } else {
+        $loadMore.addClass('hidden')
+    }
+}
+
+const getReviews = (target) => {
+    $.get(target, function (data) {
+        pageRequest = data;
+        console.log('GET >>', pageRequest)
+        bindData(data.content)
+    })
+}
+
+const bindData = (content) => {
+    const $commentList = $('.comment-list');
+    content.forEach(cmt => {
+        const $item = $('<div>').attr('id', cmt.id).addClass('item');
+        const $user = $('<div>').addClass('user');
+        const $figure = $('<figure>');
+        const $img = $('<img>').attr('src', '/static/web/images/img01.jpg');
+        const $details = $('<div>').addClass('details');
+        const $username = $('<h5>').addClass('name').text(`${cmt.userFirstName} ${cmt.userLastName}`);
+
+        const $time = $('<div>').addClass('time').text(new Date(cmt.createdDate).toLocaleDateString('vi-VN', defaultDateFormatOptions));
+        const $description = $('<div>').addClass('description').html(cmt.text);
+        const $footer = $('<footer>');
+        const $reply = $('<a>').addClass('reply-button').attr('href', '#leave-review').text('Trả lời').data('item-id', cmt.id);
+
+        $footer.append($reply)
+        $details.append($username, $time, $description, $footer);
+        $figure.append($img);
+        $user.append($figure, $details)
+        $item.append($user)
+        $commentList.append($item)
+    })
+}
 
 const handleReplyButton = (self, isReply = true) => {
     if (isReply) {

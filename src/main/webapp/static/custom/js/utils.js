@@ -140,3 +140,12 @@ const handleCopyToClipboard = (event, url) => {
         showSuccessToast('Đã copy ' + url, 2000)
     });
 }
+
+const defaultDateFormatOptions = {
+    weekday: 'long',    // EEEE
+    day: '2-digit',     // dd
+    month: '2-digit',   // MM
+    year: 'numeric',    // yyyy
+    hour: '2-digit',    // HH
+    minute: '2-digit'   // mm
+};
