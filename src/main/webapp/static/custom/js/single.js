@@ -1,15 +1,16 @@
-let pageRequest = {}
-let page = 1, limit = 2;
 const apiUrl = '/api/v1/articles/';
-let targetUrl, articleId;
+const articleId = $('#id').data('article-id');
+const limit = 2;
+let page = 1;
+let pageRequest = {};
+let targetUrl;
 
 $(document).ready(() => {
     loadReviews()
 })
 
 const loadReviews = () => {
-    articleId = $('#id').data('article-id');
-    targetUrl = apiUrl + articleId + '/reviews?page=' + page + '&limit=' + limit;
+    targetUrl = `${apiUrl}${articleId}/reviews?page=${page}&limit=${limit}`;
     getReviews(targetUrl)
     const $loadMore = $('#load-more-reviews-button');
     if (!pageRequest.last) {
@@ -20,7 +21,7 @@ const loadReviews = () => {
 }
 
 const getReviews = (target) => {
-    $.get(target, function (data) {
+    $.get(target, (data) => {
         pageRequest = data;
         console.log('GET >>', pageRequest)
         bindData(data.content)
