@@ -38,21 +38,11 @@ public class ReviewAPI {
 
     @DeleteMapping
     public ResponseEntity<Object> deleteReviews(@RequestBody List<Long> ids) throws ReviewNotFoundException {
-        try {
-            reviewModificationService.deleteMultiple(ids);
-            SuccessResponse response = SuccessResponse.builder()
-                    .timestamp(new Date())
-                    .status(HttpStatus.OK.value())
-                    .message("Đã xóa thành công")
-                    .build();
-            return ResponseEntity.ok(response);
-        } catch (ReviewNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ErrorResponse.builder()
-                            .timestamp(new Date())
-                            .status(HttpStatus.NOT_FOUND.value())
-                            .message(ex.getMessage())
-                            .build());
-        }
+        reviewModificationService.deleteMultiple(ids);
+        return ResponseEntity.ok(SuccessResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.OK.value())
+                .message("Đã xóa thành công")
+                .build());
     }
 }
