@@ -58,7 +58,7 @@ const cloneAndReplace = (data) => {
     item.find('.reply-button').attr('data-item-id', data.id)
     item.find('.name').text(data.username);
     let date = new Date(data.createdDate)
-    let formattedDate = date.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
+    let formattedDate = date.toLocaleDateString('vi-VN', {month: 'short', day: 'numeric', year: 'numeric'});
     item.find('.time').text(formattedDate);
     item.find('.description').html(data.text);
 
