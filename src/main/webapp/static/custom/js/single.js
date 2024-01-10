@@ -17,21 +17,55 @@ const handleReplyButton = (self, isReply = true) => {
     }
 }
 
+const handleDeleteReviewButton = (self) => {
+    let id = $(self).data('item-id');
+    let data = []
+    data.push(id);
+    console.log('Delete >>', data)
+    showWarningAlert('Bình luận sẽ bị xóa', (result) => {
+        if (result.isConfirmed) {
+            handleDeleteRequest('/api/v1/reviews', data, () => {
+                showSuccessAlert('Đã xóa', () => {
+                    location.reload()
+                })
+            }, (xhr) => errorCallback(xhr))
+        }
+    })
+}
+
+const handleUpdateReviewButton = (self) => {
+    let id = $(self).data('item-id');
+    $('input[name=id]').val(id);
+    let text = $('#' + id + ' .description').text();
+    $('#text').text(text)
+    console.log('Update on >> ', id + ': ' + text)
+}
+
 const handleReviewSubmitButton = (event, formSelector) => {
     event.preventDefault();
     let data = getFormData(formSelector);
+    let reviewId = data["id"];
     console.log('Review >> ', data)
-    handlePostRequest('/api/v1/reviews', data, () => {
-        showSuccessAlert('Đã đăng bình luận', () => {
-            location.reload()
+    let url = '/api/v1/reviews';
+    if (reviewId === '') {
+        handlePostRequest(url, data, () => {
+            showSuccessAlert('Đã đăng bình luận', () => {
+                location.reload()
+            })
+        }, (xhr, status, error) => {
+            console.log(getResponseTextAsJSON(xhr).message)
+            showBottomErrorToast('Có lỗi xảy ra', 2000)
         })
-    }, (xhr, status, error) => {
-        let message = getResponseTextAsJSON(xhr).message
-        $.each(message, (key, value) => {
-            console.log('Error: ' + key + ' >> ' + value)
+    } else {
+        handlePutRequest(url, data, () => {
+            showSuccessAlert('Đã sửa bình luận', () => {
+                location.reload()
+            })
+        }, (xhr) => {
+            console.log(getResponseTextAsJSON(xhr).message)
+            showBottomErrorToast('Có lỗi xảy ra', 2000)
         })
-        showBottomErrorToast(message.text, 2000)
-    })
+    }
 }
 
 const handleLoadMoreReviews = (event, id, page, limit) => {
@@ -61,7 +95,7 @@ const handleLoadMoreReviews = (event, id, page, limit) => {
 const cloneAndReplace = (data) => {
     let item = $('.item:first').clone();
     item.attr('id', data.id);
-    item.find('.reply-button').attr('data-item-id', data.id)
+    item.find('footer a').attr('data-item-id', data.id)
     item.find('.name').text(data.username);
     let date = new Date(data.createdDate)
     let formattedDate = date.toLocaleDateString('vi-VN', {month: 'short', day: 'numeric', year: 'numeric'});

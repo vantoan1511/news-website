@@ -34,6 +34,7 @@
                class="btn btn-danger">Hủy
             </a>
         </div>
+        <input type="hidden" name="id" value="">
         <input type="hidden" name="articleSlug" value="${article.slug}">
         <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}">
         <input type="hidden" name="rootId" value="">
@@ -44,7 +45,7 @@
                href="#">Đăng nhập để bình luận</a>
         </sec:authorize>
     </h2>
-    <div class="comment-list">
+    <div id="comment-list" class="comment-list">
         <c:forEach items="${comments.getContent()}" var="review">
             <div id="${review.id}" class="item">
                 <div class="user">
@@ -66,8 +67,14 @@
                                    data-item-id="${review.id}"
                                    class="reply-button"
                                    href="#leave-review">Trả lời <i class="ion-reply"></i> </a>
-                                <a href="#"> Sửa <i class="ion-edit"></i></a>
-                                <a href="#"> Xóa <i class="ion-android-delete"></i></a>
+                                <c:if test="${review.createdBy eq pageContext.request.userPrincipal.name}">
+                                    <a onclick="handleUpdateReviewButton(this)"
+                                       data-item-id="${review.id}"
+                                       href="#leave-review"> Sửa <i class="ion-edit"></i></a>
+                                    <a onclick="handleDeleteReviewButton(this)"
+                                       data-item-id="${review.id}"
+                                       href="#comment-list"> Xóa <i class="ion-android-delete"></i></a>
+                                </c:if>
                             </footer>
                         </sec:authorize>
                     </div>
