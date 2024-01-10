@@ -59,6 +59,7 @@ public class ReviewModificationService implements IReviewModificationService {
             if (oldReview == null) throw new ReviewNotFoundException("Bình luận không tồn tại hoặc đã bị xóa");
             review.setCreatedBy(oldReview.getCreatedBy());
             review.setCreatedDate(oldReview.getCreatedDate());
+            review.setParent(oldReview.getParent());
         }
 
         review.setText(StringEscapeUtils.escapeHtml4(newReviewDTO.getText()));

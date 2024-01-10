@@ -30,7 +30,7 @@ public class ReviewAPI {
     }
 
     @PutMapping
-    public ResponseEntity<Object> update(@Valid @RequestBody ReviewDTO updatedReview) throws UserNotFoundException, ReviewNotFoundException, ArticleNotFoundException {
+    public ResponseEntity<Object> update(@RequestBody ReviewDTO updatedReview) throws UserNotFoundException, ReviewNotFoundException, ArticleNotFoundException {
         return new ResponseEntity<>(reviewModificationService.save(updatedReview), HttpStatus.CREATED);
     }
 
