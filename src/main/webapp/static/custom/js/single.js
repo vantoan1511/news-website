@@ -20,7 +20,11 @@ const handleReviewSubmitButton = (event, formSelector) => {
             location.reload()
         })
     }, (xhr, status, error) => {
-        showBottomErrorToast('Có lỗi xảy ra', 2000)
+        let message = getResponseTextAsJSON(xhr).message
+        $.each(message, (key, value) => {
+            console.log('Error: ' + key + ' >> ' + value)
+        })
+        showBottomErrorToast(message.text, 2000)
     })
 }
 
