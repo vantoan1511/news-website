@@ -45,10 +45,10 @@ public class ReviewModificationService implements IReviewModificationService {
 
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc đã bị xóa");
         if (user == null) throw new UserNotFoundException("Người dùng không tồn tại");
-        if (newReviewDTO.getParentId() != 0) {
-            Review parent = reviewRepository.findOne(newReviewDTO.getParentId());
-            if (parent == null) throw new ReviewNotFoundException("Bình luận không tồn tại hoặc đã bị xóa");
-            review.setParent(parent);
+        if (newReviewDTO.getRootId() != 0) {
+            Review root = reviewRepository.findOne(newReviewDTO.getRootId());
+            if (root == null) throw new ReviewNotFoundException("Bình luận không tồn tại hoặc đã bị xóa");
+            review.setParent(root);
         }
 
         review.setUser(user);
