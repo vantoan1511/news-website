@@ -25,7 +25,7 @@ public class ReviewAPI {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestBody ReviewDTO newReview) throws UserNotFoundException, ReviewNotFoundException, ArticleNotFoundException {
+    public ResponseEntity<Object> create(@Valid @RequestBody ReviewDTO newReview) throws UserNotFoundException, ReviewNotFoundException, ArticleNotFoundException {
         return new ResponseEntity<>(reviewModificationService.save(newReview), HttpStatus.CREATED);
     }
 
