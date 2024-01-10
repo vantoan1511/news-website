@@ -1,5 +1,6 @@
 package com.vtoan1517.api.web;
 
+import com.vtoan1517.dto.ErrorResponse;
 import com.vtoan1517.dto.ReviewDTO;
 import com.vtoan1517.dto.SuccessResponse;
 import com.vtoan1517.exception.ArticleNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/reviews")
@@ -35,13 +37,22 @@ public class ReviewAPI {
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> update(@RequestBody long[] ids) throws ReviewNotFoundException {
-        reviewModificationService.deleteMultiple(ids);
-        SuccessResponse response = SuccessResponse.builder()
-                .timestamp(new Date())
-                .status(HttpStatus.OK.value())
-                .message("Đã xóa thành công")
-                .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Object> deleteReviews(@RequestBody List<Long> ids) throws ReviewNotFoundException {
+        try {
+            reviewModificationService.deleteMultiple(ids);
+            SuccessResponse response = SuccessResponse.builder()
+                    .timestamp(new Date())
+                    .status(HttpStatus.OK.value())
+                    .message("Đã xóa thành công")
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (ReviewNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ErrorResponse.builder()
+                            .timestamp(new Date())
+                            .status(HttpStatus.NOT_FOUND.value())
+                            .message(ex.getMessage())
+                            .build());
+        }
     }
 }
