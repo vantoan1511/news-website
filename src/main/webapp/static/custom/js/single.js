@@ -5,12 +5,13 @@ $(document).ready(() => {
 const handleReplyButton = (self) => {
     let id = $(self).data('item-id');
     let replyText = $('#' + id + ' .description').text()
-    console.log(replyText)
+    console.log('Reply to >> ', replyText)
     $('#reply-text').text(replyText)
+    $('input[name=parentId]').attr('value', id);
     $('#reply-to-text').removeClass('hidden')
 }
 
-const handleReviewSubmitButtonClick = (event, formSelector) => {
+const handleReviewSubmitButton = (event, formSelector) => {
     event.preventDefault();
     let data = getFormData(formSelector);
     console.log('Review >> ', data)
@@ -55,7 +56,7 @@ const cloneAndReplace = (data) => {
     let date = new Date(data.createdDate)
     let formattedDate = date.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
     item.find('.time').text(formattedDate);
-    item.find('.description').text(data.text);
+    item.find('.description').html(data.text);
 
     $('.comment-list').append(item);
 }

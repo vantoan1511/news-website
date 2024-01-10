@@ -24,13 +24,14 @@
                       placeholder="Viết bình luận của bạn tại đây ..."></textarea>
         </div>
         <div class="form-group col-md-12">
-            <button onclick="handleReviewSubmitButtonClick(event, '#review-form')"
+            <button onclick="handleReviewSubmitButton(event, '#review-form')"
                     id="review-submit-btn"
                     class="btn btn-primary">Gửi
             </button>
         </div>
         <input type="hidden" name="articleSlug" value="${article.slug}">
         <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}">
+        <input type="hidden" name="parentId" value="">
     </form>
     <h2 class="title">${comments.getTotalElements()} Bình luận
         <sec:authorize access="isAnonymous()">
@@ -49,12 +50,14 @@
                         <h5 class="name">${review.username}</h5>
                         <div class="time"><fmt:formatDate value="${review.createdDate}"/></div>
                         <div class="description">${review.text}</div>
-                        <footer>
-                            <a onclick="handleReplyButton(this)"
-                               data-item-id="${review.id}"
-                               class="reply-button"
-                               href="#leave-review">Trả lời</a>
-                        </footer>
+                        <sec:authorize access="isAuthenticated()">
+                            <footer>
+                                <a onclick="handleReplyButton(this)"
+                                   data-item-id="${review.id}"
+                                   class="reply-button"
+                                   href="#leave-review">Trả lời</a>
+                            </footer>
+                        </sec:authorize>
                     </div>
                 </div>
             </div>
