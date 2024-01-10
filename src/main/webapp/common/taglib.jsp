@@ -7,3 +7,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<fmt:setLocale value="vi_VN" scope="request"/>
