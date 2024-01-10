@@ -2,13 +2,19 @@ $(document).ready(() => {
 
 })
 
-const handleReplyButton = (self) => {
-    let id = $(self).data('item-id');
-    let replyText = $('#' + id + ' .description').text()
-    console.log('Reply to >> ', replyText)
-    $('#reply-text').text(replyText)
-    $('input[name=rootId]').attr('value', id);
-    $('#reply-to-text').removeClass('hidden')
+const handleReplyButton = (self, isReply = true) => {
+    if (isReply) {
+        let id = $(self).data('item-id');
+        let replyText = $('#' + id + ' .description').text()
+        console.log('Reply to >> ', replyText)
+        $('#reply-text').text(replyText)
+        $('input[name=rootId]').attr('value', id);
+        $('#reply-to-text').removeClass('hidden')
+    } else {
+        $('#reply-text').text(null)
+        $('input[name=rootId]').attr('value', '');
+        $('#reply-to-text').addClass('hidden')
+    }
 }
 
 const handleReviewSubmitButton = (event, formSelector) => {

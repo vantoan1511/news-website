@@ -28,6 +28,11 @@
                     id="review-submit-btn"
                     class="btn btn-primary">Gửi
             </button>
+            <a onclick="handleReplyButton(this, false)"
+               id="cancel-btn"
+               href="#leave-review"
+               class="btn btn-danger">Hủy
+            </a>
         </div>
         <input type="hidden" name="articleSlug" value="${article.slug}">
         <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}">
@@ -60,7 +65,9 @@
                                 <a onclick="handleReplyButton(this)"
                                    data-item-id="${review.id}"
                                    class="reply-button"
-                                   href="#leave-review">Trả lời</a>
+                                   href="#leave-review">Trả lời <i class="ion-reply"></i> </a>
+                                <a href="#"> Sửa <i class="ion-edit"></i></a>
+                                <a href="#"> Xóa <i class="ion-android-delete"></i></a>
                             </footer>
                         </sec:authorize>
                     </div>
