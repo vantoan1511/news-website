@@ -7,8 +7,6 @@ import com.vtoan1517.exception.ReviewNotFoundException;
 import com.vtoan1517.exception.UserNotFoundException;
 import com.vtoan1517.service.IReviewModificationService;
 import com.vtoan1517.service.IReviewRetrievalService;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +19,13 @@ import java.util.Date;
 public class ReviewAPI {
 
     private final IReviewModificationService reviewModificationService;
-    private final IReviewRetrievalService reviewRetrievalService;
 
-    public ReviewAPI(IReviewModificationService reviewModificationService,
-                     IReviewRetrievalService reviewRetrievalService) {
+    public ReviewAPI(IReviewModificationService reviewModificationService) {
         this.reviewModificationService = reviewModificationService;
-        this.reviewRetrievalService = reviewRetrievalService;
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody ReviewDTO newReview) throws UserNotFoundException, ReviewNotFoundException, ArticleNotFoundException {
+    public ResponseEntity<Object> create(@RequestBody ReviewDTO newReview) throws UserNotFoundException, ReviewNotFoundException, ArticleNotFoundException {
         return new ResponseEntity<>(reviewModificationService.save(newReview), HttpStatus.CREATED);
     }
 

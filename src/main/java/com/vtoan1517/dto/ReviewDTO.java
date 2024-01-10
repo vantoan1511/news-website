@@ -1,21 +1,20 @@
 package com.vtoan1517.dto;
 
 import lombok.*;
-import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Data
 public class ReviewDTO extends BaseDTO {
-    @Size(min = 1, message = "Độ dài bình luận tối thiểu 1 ký tự")
+    @NotBlank(message = "Nội dung bình luận không được để trống")
     private String text;
+    @NotBlank(message = "Alias bài viết không đươc rỗng")
     private String articleSlug;
+    @NotBlank(message = "Username không được rỗng")
     private String username;
     private long parentId;
     private List<ReviewDTO> children = new ArrayList<>();
