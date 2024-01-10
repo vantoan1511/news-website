@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ReviewModificationService implements IReviewModificationService {
     private final ArticleRepository articleRepository;
@@ -76,7 +78,7 @@ public class ReviewModificationService implements IReviewModificationService {
     }
 
     @Override
-    public void deleteMultiple(long[] ids) throws ReviewNotFoundException {
+    public void deleteMultiple(List<Long> ids) throws ReviewNotFoundException {
         for (long id : ids) {
             this.delete(id);
         }
