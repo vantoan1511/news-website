@@ -7,7 +7,7 @@ const handleReplyButton = (self) => {
     let replyText = $('#' + id + ' .description').text()
     console.log('Reply to >> ', replyText)
     $('#reply-text').text(replyText)
-    $('input[name=parentId]').attr('value', id);
+    $('input[name=rootId]').attr('value', id);
     $('#reply-to-text').removeClass('hidden')
 }
 

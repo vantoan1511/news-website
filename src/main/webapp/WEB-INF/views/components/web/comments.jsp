@@ -31,7 +31,7 @@
         </div>
         <input type="hidden" name="articleSlug" value="${article.slug}">
         <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}">
-        <input type="hidden" name="parentId" value="">
+        <input type="hidden" name="rootId" value="">
     </form>
     <h2 class="title">${comments.getTotalElements()} Bình luận
         <sec:authorize access="isAnonymous()">
@@ -47,8 +47,13 @@
                         <img src="/static/web/images/img01.jpg">
                     </figure>
                     <div class="details">
-                        <h5 class="name">${review.username}</h5>
+                        <h5 class="name">${review.userFirstName} ${review.userLastName}</h5>
                         <div class="time"><fmt:formatDate value="${review.createdDate}"/></div>
+                        <c:if test="${not empty review.parentText}">
+                            <div class="reply-to-text">
+                                <blockquote>${review.parentText}</blockquote>
+                            </div>
+                        </c:if>
                         <div class="description">${review.text}</div>
                         <sec:authorize access="isAuthenticated()">
                             <footer>
