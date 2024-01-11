@@ -19,7 +19,7 @@ public class ReviewDTO extends BaseDTO {
     private String userFirstName;
     private String userLastName;
     private String userAvatarUrl;
-    private long rootId;
+    private long parentId;
     private String parentText;
     private List<ReviewDTO> children = new ArrayList<>();
 }
