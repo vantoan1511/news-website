@@ -1,6 +1,7 @@
 const apiUrl = '/api/v1/articles/';
 const articleId = $('#id').data('article-id');
 const limit = 2;
+const loggedInUsername = $('#logged-user').data('username');
 let page = 1;
 let pageRequest = {};
 let targetUrl;
@@ -43,6 +44,12 @@ const createReviews = (reviews) => {
         const $reply = $('<a>').addClass('reply-button').attr('href', '#leave-review')
             .attr('onclick', 'handleReplyButton(this)').attr('data-item-id', review.id)
             .html(`Trả lời <i class="ion-reply"></i>`)
+        const $edit = $('<a>').attr('href', '#leave-review')
+            .attr('onclick', 'handleUpdateReviewButton(this)').attr('data-item-id', review.id)
+            .html(`Sửa <i class="ion-edit"></i>`)
+        const $delete = $('<a>').attr('href', '#leave-review')
+            .attr('onclick', 'handleDeleteReviewButton(this)').attr('data-item-id', review.id)
+            .html(`Xóa <i class="ion-android-delete"></i>`)
 
         let $parentText = $('<div>')
         if (review.parentId !== 0) {
@@ -50,6 +57,9 @@ const createReviews = (reviews) => {
         }
 
         $footer.append($reply)
+        if (loggedInUsername === review.createdBy) {
+            $footer.append($edit, $delete)
+        }
         $details.append($username, $time, $parentText, $description, $footer);
         $figure.append($img);
         $user.append($figure, $details)
@@ -124,6 +134,7 @@ const handleReviewSubmitButton = (event, formSelector) => {
     }
 }
 
+/*
 const handleLoadMoreReviews = (event, id, page, limit) => {
     event.preventDefault();
     let pageInput = $('input[name=page]');
@@ -159,4 +170,4 @@ const cloneAndReplace = (data) => {
     item.find('.description').html(data.text);
 
     $('.comment-list').append(item);
-}
+}*/
