@@ -24,27 +24,31 @@ const getReviews = (target) => {
     $.get(target, (data) => {
         pageRequest = data;
         console.log('GET >>', pageRequest)
-        bindData(data.content)
+        createReviews(data.content)
     })
 }
 
-const bindData = (content) => {
+const createReviews = (reviews) => {
     const $commentList = $('.comment-list');
-    content.forEach(cmt => {
-        const $item = $('<div>').attr('id', cmt.id).addClass('item');
+    reviews.forEach(review => {
+        const $item = $('<div>').attr('id', review.id).addClass('item');
         const $user = $('<div>').addClass('user');
         const $figure = $('<figure>');
         const $img = $('<img>').attr('src', '/static/web/images/img01.jpg');
         const $details = $('<div>').addClass('details');
-        const $username = $('<h5>').addClass('name').text(`${cmt.userFirstName} ${cmt.userLastName}`);
-
-        const $time = $('<div>').addClass('time').text(new Date(cmt.createdDate).toLocaleDateString('vi-VN', defaultDateFormatOptions));
-        const $description = $('<div>').addClass('description').html(cmt.text);
+        const $username = $('<h5>').addClass('name').text(`${review.userFirstName} ${review.userLastName}`);
+        const $time = $('<div>').addClass('time').text(new Date(review.createdDate).toLocaleDateString('vi-VN', defaultDateFormatOptions));
+        const $description = $('<div>').addClass('description').html(review.text);
         const $footer = $('<footer>');
-        const $reply = $('<a>').addClass('reply-button').attr('href', '#leave-review').text('Trả lời').data('item-id', cmt.id);
+        const $reply = $('<a>').addClass('reply-button').attr('href', '#leave-review').text('Trả lời').data('item-id', review.id);
+
+        let $parentText = $('<div>')
+        if (review.parentId !== 0) {
+            $parentText.html(`<blockquote>${review.parentText}</blockquote>`);
+        }
 
         $footer.append($reply)
-        $details.append($username, $time, $description, $footer);
+        $details.append($username, $time, $parentText, $description, $footer);
         $figure.append($img);
         $user.append($figure, $details)
         $item.append($user)
