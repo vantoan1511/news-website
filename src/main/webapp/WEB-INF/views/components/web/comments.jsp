@@ -45,52 +45,9 @@
                href="#">Đăng nhập để bình luận</a>
         </sec:authorize>
     </h2>
-    <div id="comment-list" class="comment-list">
-        <%--<c:forEach items="${comments.getContent()}" var="review">
-            <div id="${review.id}" class="item">
-                <div class="user">
-                    <figure>
-                        <img src="/static/web/images/img01.jpg">
-                    </figure>
-                    <div class="details">
-                        <h5 class="name">${review.userFirstName} ${review.userLastName}</h5>
-                        <div class="time"><fmt:formatDate value="${review.createdDate}"/></div>
-                        <c:if test="${not empty review.parentText}">
-                            <div class="reply-to-text">
-                                <blockquote>${review.parentText}</blockquote>
-                            </div>
-                        </c:if>
-                        <div class="description">${review.text}</div>
-                        <sec:authorize access="isAuthenticated()">
-                            <footer>
-                                <a onclick="handleReplyButton(this)"
-                                   data-item-id="${review.id}"
-                                   class="reply-button"
-                                   href="#leave-review">Trả lời <i class="ion-reply"></i> </a>
-                                <c:if test="${review.createdBy eq pageContext.request.userPrincipal.name}">
-                                    <a onclick="handleUpdateReviewButton(this)"
-                                       data-item-id="${review.id}"
-                                       href="#leave-review"> Sửa <i class="ion-edit"></i></a>
-                                    <a onclick="handleDeleteReviewButton(this)"
-                                       data-item-id="${review.id}"
-                                       href="#comment-list"> Xóa <i class="ion-android-delete"></i></a>
-                                </c:if>
-                            </footer>
-                        </sec:authorize>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>--%>
-    </div>
+    <div id="comment-list" class="comment-list"></div>
     <div class="row">
         <div class="col text-center">
-            <%--<c:if test="${comments.hasNext()}">
-                <input type="hidden" name="page" value="${comments.getNumber()}">
-                <input type="hidden" name="limit" value="${comments.getSize()}">
-                <button onclick="handleLoadMoreReviews(event, ${article.id}, ${comments.getNumber()}, ${comments.getSize()})"
-                        id="load-more-review-btn"
-                        class="btn btn-magz">Xem thêm <i class="ion-android-arrow-down"></i></button>
-            </c:if>--%>
             <button onclick="loadReviews()"
                     id="load-more-reviews-button"
                     class="btn btn-magz">Xem thêm <i class="ion-android-arrow-down"></i></button>
