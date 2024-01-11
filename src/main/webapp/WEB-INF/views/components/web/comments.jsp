@@ -37,7 +37,7 @@
         <input type="hidden" name="id" value="">
         <input type="hidden" name="articleSlug" value="${article.slug}">
         <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}">
-        <input type="hidden" name="rootId" value="">
+        <input type="hidden" name="parentId" value="">
     </form>
     <h2 class="title">${comments.getTotalElements()} Bình luận
         <sec:authorize access="isAnonymous()">

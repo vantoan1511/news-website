@@ -40,7 +40,9 @@ const createReviews = (reviews) => {
         const $time = $('<div>').addClass('time').text(new Date(review.createdDate).toLocaleDateString('vi-VN', defaultDateFormatOptions));
         const $description = $('<div>').addClass('description').html(review.text);
         const $footer = $('<footer>');
-        const $reply = $('<a>').addClass('reply-button').attr('href', '#leave-review').text('Trả lời').data('item-id', review.id);
+        const $reply = $('<a>').addClass('reply-button').attr('href', '#leave-review')
+            .attr('onclick', 'handleReplyButton(this)').attr('data-item-id', review.id)
+            .html(`Trả lời <i class="ion-reply"></i>`)
 
         let $parentText = $('<div>')
         if (review.parentId !== 0) {
@@ -62,11 +64,11 @@ const handleReplyButton = (self, isReply = true) => {
         let replyText = $('#' + id + ' .description').text()
         console.log('Reply to >> ', replyText)
         $('#reply-text').text(replyText)
-        $('input[name=rootId]').attr('value', id);
+        $('input[name=parentId]').attr('value', id);
         $('#reply-to-text').removeClass('hidden')
     } else {
         $('#reply-text').text(null)
-        $('input[name=rootId]').attr('value', '');
+        $('input[name=parentId]').attr('value', '');
         $('#reply-to-text').addClass('hidden')
     }
 }
