@@ -40,15 +40,18 @@ public class ReviewModificationService implements IReviewModificationService {
 
     @Override
     @Transactional
-    public ReviewDTO save(ReviewDTO newReviewDTO) throws ArticleNotFoundException, UserNotFoundException, ReviewNotFoundException {
-        Article article = articleRepository.findBySlug(newReviewDTO.getArticleSlug());
-        User user = userRepository.findByUsername(newReviewDTO.getUsername());
-        Review review = mapper.map(newReviewDTO, Review.class);
+    public ReviewDTO save(ReviewDTO reviewDTO) throws ArticleNotFoundException, UserNotFoundException, ReviewNotFoundException {
+        Review review = new Review();
+        review.setText(StringEscapeUtils.escapeHtml4(reviewDTO.getText()));
+
+        Article article = articleRepository.findBySlug(reviewDTO.getArticleSlug());
+        User user = userRepository.findByUsername(reviewDTO.getUsername());
+        //Review review = mapper.map(reviewDTO, Review.class);
 
         if (article == null) throw new ArticleNotFoundException("Bài viết không tồn tại hoặc đã bị xóa");
         if (user == null) throw new UserNotFoundException("Người dùng không tồn tại");
-        if (newReviewDTO.getRootId() != 0) {
-            Review root = reviewRepository.findOne(newReviewDTO.getRootId());
+        if (reviewDTO.getParentId() != 0) {
+            Review root = reviewRepository.findOne(reviewDTO.getParentId());
             if (root == null) throw new ReviewNotFoundException("Bình luận không tồn tại hoặc đã bị xóa");
             review.setParent(root);
         }
@@ -56,15 +59,14 @@ public class ReviewModificationService implements IReviewModificationService {
         review.setUser(user);
         review.setArticle(article);
 
-        if (newReviewDTO.getId() != 0) {
-            Review oldReview = reviewRepository.findOne(newReviewDTO.getId());
+        if (reviewDTO.getId() != 0) {
+            Review oldReview = reviewRepository.findOne(reviewDTO.getId());
             if (oldReview == null) throw new ReviewNotFoundException("Bình luận không tồn tại hoặc đã bị xóa");
+            review.setId(reviewDTO.getId());
             review.setCreatedBy(oldReview.getCreatedBy());
             review.setCreatedDate(oldReview.getCreatedDate());
             review.setParent(oldReview.getParent());
         }
-
-        review.setText(StringEscapeUtils.escapeHtml4(newReviewDTO.getText()));
 
         return mapper.map(reviewRepository.save(review), ReviewDTO.class);
     }
