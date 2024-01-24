@@ -86,7 +86,7 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.security.ver}</version>
         </dependency>
-        <!-- -->
+        <!--Servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
@@ -120,9 +120,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.14.0</version>
         </dependency>
-
         <!--Hibernate-->
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>

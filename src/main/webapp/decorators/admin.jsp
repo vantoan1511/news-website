@@ -46,7 +46,9 @@
     <!-- Main Sidebar Container -->
     <%@ include file="/WEB-INF/views/components/admin/sidebar.jsp" %>
 
-    <dec:body/>
+    <div class="content-wrapper">
+        <dec:body/>
+    </div>
 
     <!-- Footer -->
     <%@ include file="/WEB-INF/views/components/admin/footer.jsp" %>

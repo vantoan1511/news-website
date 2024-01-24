@@ -7,6 +7,9 @@
          http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
     <http auto-config="false" use-expressions="true" disable-url-rewriting="true">
         <intercept-url pattern="/admin/**" access="hasAnyRole('admin', 'author')"/>
+        <intercept-url pattern="/api/v1/reviews" method="GET" access="permitAll()"/>
+        <intercept-url pattern="/api/v1/**" method="POST" access="isAuthenticated()"/>
+
         <access-denied-handler
                 error-page="/access-denied"/>
         <form-login login-page="/login" default-target-url="/home"

@@ -30,7 +30,6 @@
         </div>
     </div>
 </section>
-
 <%@ include file="../components/web/bestOfTheWeek.jsp" %>
 </body>
 </html>
